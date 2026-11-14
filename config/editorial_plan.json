@@ -1,0 +1,48 @@
+{
+  "channel": "Gameplays con J",
+  "language": "es-MX",
+  "default_voice": "es-MX-JorgeNeural",
+  "target_duration_minutes": {"min": 8, "max": 12},
+  "editorial_mix": [
+    {
+      "series": "Misterios, secretos y easter eggs",
+      "share_percent": 40,
+      "focus": "Pistas ocultas, zonas secretas, mensajes y detalles difíciles de encontrar."
+    },
+    {
+      "series": "Historias oscuras y perturbadoras",
+      "share_percent": 30,
+      "focus": "Historias del desarrollo, sucesos dentro del lore y teorías claramente identificadas."
+    },
+    {
+      "series": "Curiosidades y datos sorprendentes",
+      "share_percent": 30,
+      "focus": "Detalles poco conocidos, mecánicas, referencias y decisiones de diseño."
+    }
+  ],
+  "episode_structure": [
+    "Gancho inicial: 0:00-0:25",
+    "Contexto del juego y del tema",
+    "Evidencias y desarrollo en orden claro",
+    "Contraste entre hechos confirmados y teorías",
+    "Conclusión y pregunta para comentarios"
+  ],
+  "research_rules": [
+    "No inventar datos, citas, declaraciones ni fechas.",
+    "Guardar al menos dos fuentes fiables por afirmación central cuando sea posible.",
+    "Priorizar fuentes primarias: juego, desarrolladores, documentación oficial y entrevistas.",
+    "Distinguir explícitamente hechos confirmados, interpretaciones y teorías.",
+    "No copiar guiones de otros creadores.",
+    "No usar gameplay, música ni imágenes sin derechos o permiso compatible."
+  ],
+  "visual_rules": [
+    "Priorizar gameplay y capturas propias.",
+    "Usar material con licencia compatible cuando no haya material propio.",
+    "Añadir subtítulos legibles y evitar pantallas estáticas prolongadas.",
+    "No publicar automáticamente un episodio que no haya pasado revisión."
+  ],
+  "publishing_defaults": {
+    "privacy_status": "private",
+    "require_review_before_publication": true
+  }
+}
