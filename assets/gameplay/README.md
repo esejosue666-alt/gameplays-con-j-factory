@@ -1,22 +1,46 @@
-# Biblioteca de gameplay
+# Biblioteca de gameplay de terceros
 
-Coloca aquí clips o capturas que tengas derecho a utilizar. El renderizador busca coincidencias entre las etiquetas de cada escena y las etiquetas de cada archivo del catálogo.
+La fábrica puede usar grabaciones de otros jugadores cuando exista una base documentada que permita reutilizarlas. La atribución automática se añade a la descripción del video final.
 
-## Reglas de autorización
-- `own_recording`: grabación propia del juego (por ejemplo, captura de tu PS5).
-- `written_permission`: permiso expreso y conservable del titular.
-- `license`: licencia que permite el uso previsto; conserva la prueba/licencia.
-- No marques un archivo como aprobado solo porque esté publicado en YouTube.
-- No incluyas música de radio protegida. En Cyberpunk 2077 activa “Desactivar música con derechos de autor” antes de grabar.
+## Importante: crédito no es permiso
+Poner el nombre del canal o enlazar el video original es una buena práctica, pero no concede por sí solo derechos para descargar, recortar, editar, sincronizar o monetizar la grabación. No se debe marcar un clip como autorizado únicamente porque sea público en YouTube.
+
+## Bases admitidas por el renderizador
+- `written_permission`: permiso expreso del titular, conservado como evidencia. Se exige `permission_evidence`, `creator_name` y `source_url`.
+- `license`: licencia verificable que permite el uso previsto, incluida edición y uso comercial cuando el canal vaya a monetizar. Se exige `license_url`, `creator_name` y `source_url`.
+- `own_recording`: grabación propia, con `source_note`.
+
+No se aceptan licencias que prohíban obras derivadas o uso comercial si el plan incluye editar o monetizar el video. Si las condiciones no están claras, no se aprueba el clip.
 
 ## Añadir un clip
-1. Copia el MP4/MOV/MKV/WEBM o imagen JPG/PNG/WEBP a esta carpeta o una subcarpeta.
-2. Añade un objeto a `catalog.json`:
-   - `path`: ruta relativa desde la raíz del repositorio.
-   - `tags`: etiquetas temáticas, por ejemplo `["corpo_plaza","statue","ff06b5"]`.
-   - `approved_for_use`: `true` solo después de confirmar derechos.
-   - `rights_basis`: `own_recording`, `written_permission` o `license`.
-   - `source_note`: nota breve que identifique el origen o la licencia.
-3. El sistema asignará el clip a escenas con etiquetas coincidentes y evitará repetirlo en el mismo vídeo.
+1. Guarda el archivo autorizado en esta carpeta o una subcarpeta.
+2. Añade un objeto en `catalog.json` con los campos del ejemplo.
+3. Usa etiquetas que describan exactamente el contenido visual.
+4. Comprueba que la evidencia cubre el archivo y el uso previsto.
 
-Si no existe una coincidencia aprobada, se conserva la tarjeta de respaldo; nunca se rellena con gameplay aleatorio.
+Ejemplo de clip con permiso:
+```json
+{
+  "path": "assets/gameplay/cyberpunk/iglesia.mp4",
+  "tags": ["church", "biotechnica", "servers"],
+  "approved_for_use": true,
+  "rights_basis": "written_permission",
+  "creator_name": "Nombre del creador",
+  "creator_channel_url": "https://www.youtube.com/@canal",
+  "source_url": "https://www.youtube.com/watch?v=VIDEO",
+  "permission_evidence": "Registro privado del permiso recibido; no publicar datos privados",
+  "attribution_text": "Gameplay de Nombre del creador"
+}
+```
+
+Para licencia, sustituye `permission_evidence` por `license_url` y registra las condiciones en `source_note` o en un archivo de documentación.
+
+## Selección y créditos
+- El renderizador selecciona clips por coincidencia de etiquetas y evita repetirlos dentro del mismo episodio.
+- Solo usa archivos locales con aprobación y datos de derechos suficientes.
+- Añade automáticamente nombre, canal, video fuente y licencia (si aplica) a `output/metadata.json`.
+- Si no hay un clip válido, utiliza la tarjeta de respaldo; nunca gameplay aleatorio.
+- No descargues videos de YouTube ni elimines marcas de agua o atribuciones sin autorización.
+- La música y los efectos de sonido tienen derechos separados: verifica su licencia por separado. En Cyberpunk 2077, activa la opción de desactivar música con derechos de autor al grabar.
+
+La búsqueda de fuentes no equivale a autorización: cada clip debe pasar revisión antes de incorporarse al catálogo.
