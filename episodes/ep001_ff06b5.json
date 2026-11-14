@@ -15,43 +15,105 @@
   "scenes": [
     {
       "heading": "Un código que no debía estar ahí",
-      "narration": "Night City está llena de anuncios, pantallas, símbolos y mensajes que pasan frente a tus ojos en cuestión de segundos. Pero hay uno que consiguió algo muy distinto: detener a miles de jugadores durante años. En una estatua del distrito Corpo Plaza aparece una secuencia extraña: FF, dos puntos, cero seis, dos puntos, B cinco. FF:06:B5. Al principio, algunos pensaron que era simplemente un error visual, quizá un código de color que se había mostrado donde debía aparecer otro texto. Pero la comunidad empezó a encontrar patrones, más estatuas y detalles que parecían conectados. Lo que parecía un pequeño fallo terminó convirtiéndose en una de las búsquedas más elaboradas de Cyberpunk 2077. Y lo más extraño es que las pistas no se quedaron dentro de Night City."
+      "narration": "Night City está llena de anuncios, pantallas, símbolos y mensajes que pasan frente a tus ojos en cuestión de segundos. Pero hay uno que consiguió algo muy distinto: detener a miles de jugadores durante años. En una estatua del distrito Corpo Plaza aparece una secuencia extraña: FF, dos puntos, cero seis, dos puntos, B cinco. FF:06:B5. Al principio, algunos pensaron que era simplemente un error visual, quizá un código de color que se había mostrado donde debía aparecer otro texto. Pero la comunidad empezó a encontrar patrones, más estatuas y detalles que parecían conectados. Lo que parecía un pequeño fallo terminó convirtiéndose en una de las búsquedas más elaboradas de Cyberpunk 2077. Y lo más extraño es que las pistas no se quedaron dentro de Night City.",
+      "visual_tags": [
+        "corpo_plaza",
+        "statue",
+        "ff06b5",
+        "night_city"
+      ]
     },
     {
       "heading": "La estatua y las primeras pistas",
-      "narration": "La investigación comenzó observando la estatua con cuidado. No era un monumento cualquiera: tenía varias extremidades, una espada y una esfera, además de la secuencia FF:06:B5 grabada en su base. Había otras figuras parecidas repartidas por la ciudad, algunas con diferencias en sus detalles. Los jugadores compararon ubicaciones, colores, símbolos y comportamientos. Una pista llamativa era que FF:06:B5 también podía interpretarse como un código hexadecimal de color, asociado al magenta. Eso no demostraba por sí solo qué significaba el mensaje, pero ofrecía una conexión visual que la comunidad siguió investigando. También aparecían monjes cerca de la estatua y frases relacionadas con la meditación y los chakras. ¿Era una referencia espiritual? ¿Un acertijo tecnológico? En ese momento nadie podía afirmarlo con seguridad."
+      "narration": "La investigación comenzó observando la estatua con cuidado. No era un monumento cualquiera: tenía varias extremidades, una espada y una esfera, además de la secuencia FF:06:B5 grabada en su base. Había otras figuras parecidas repartidas por la ciudad, algunas con diferencias en sus detalles. Los jugadores compararon ubicaciones, colores, símbolos y comportamientos. Una pista llamativa era que FF:06:B5 también podía interpretarse como un código hexadecimal de color, asociado al magenta. Eso no demostraba por sí solo qué significaba el mensaje, pero ofrecía una conexión visual que la comunidad siguió investigando. También aparecían monjes cerca de la estatua y frases relacionadas con la meditación y los chakras. ¿Era una referencia espiritual? ¿Un acertijo tecnológico? En ese momento nadie podía afirmarlo con seguridad.",
+      "visual_tags": [
+        "statue",
+        "monks",
+        "corpo_plaza",
+        "hex_color"
+      ]
     },
     {
       "heading": "El misterio cruza a The Witcher 3",
-      "narration": "La búsqueda dio un giro cuando los jugadores encontraron una referencia relacionada en una actualización de nueva generación de The Witcher 3. En una zona secreta aparecía un símbolo de una serpiente que se muerde la cola, conocido como ouroboros, acompañado por marcas y un elemento magenta. La semejanza con los símbolos de Cyberpunk 2077 hizo que la comunidad investigara si ambos juegos estaban conectados por el mismo enigma. No era una prueba de que sus historias compartieran una explicación literal, pero sí una pista deliberada o, como mínimo, una coincidencia demasiado llamativa para ignorarla. De pronto, FF:06:B5 ya no parecía un simple código perdido en una estatua. La pregunta dejó de ser qué significaba una inscripción y pasó a ser qué clase de rompecabezas estaba construyendo el estudio entre dos videojuegos."
+      "narration": "La búsqueda dio un giro cuando los jugadores encontraron una referencia relacionada en una actualización de nueva generación de The Witcher 3. En una zona secreta aparecía un símbolo de una serpiente que se muerde la cola, conocido como ouroboros, acompañado por marcas y un elemento magenta. La semejanza con los símbolos de Cyberpunk 2077 hizo que la comunidad investigara si ambos juegos estaban conectados por el mismo enigma. No era una prueba de que sus historias compartieran una explicación literal, pero sí una pista deliberada o, como mínimo, una coincidencia demasiado llamativa para ignorarla. De pronto, FF:06:B5 ya no parecía un simple código perdido en una estatua. La pregunta dejó de ser qué significaba una inscripción y pasó a ser qué clase de rompecabezas estaba construyendo el estudio entre dos videojuegos.",
+      "visual_tags": [
+        "the_witcher_3",
+        "ouroboros",
+        "magenta_symbol",
+        "secret_area"
+      ]
     },
     {
       "heading": "La actualización 2.0 abre otra puerta",
-      "narration": "En 2023 llegó una de las piezas más importantes. Con la actualización 2.0 de Cyberpunk 2077, los jugadores descubrieron una iglesia en la zona de las granjas de proteína de Biotechnica. Dentro había servidores, una computadora portátil y una máquina arcade con un juego llamado Arasaka Tower 3D. Los mensajes del portátil mencionaban a dos investigadores: Polyhistor y Tyromancer. Sus conversaciones hablaban de FF:06:B5 y de una búsqueda que parecía avanzar a través de pistas escondidas. La máquina arcade no era decoración. Era una versión retro de un juego de disparos en primera persona, inspirado en los clásicos de los años noventa, donde controlamos a Johnny Silverhand durante su ataque a la torre de Arasaka. Y escondía habitaciones que no aparecían a simple vista."
+      "narration": "En 2023 llegó una de las piezas más importantes. Con la actualización 2.0 de Cyberpunk 2077, los jugadores descubrieron una iglesia en la zona de las granjas de proteína de Biotechnica. Dentro había servidores, una computadora portátil y una máquina arcade con un juego llamado Arasaka Tower 3D. Los mensajes del portátil mencionaban a dos investigadores: Polyhistor y Tyromancer. Sus conversaciones hablaban de FF:06:B5 y de una búsqueda que parecía avanzar a través de pistas escondidas. La máquina arcade no era decoración. Era una versión retro de un juego de disparos en primera persona, inspirado en los clásicos de los años noventa, donde controlamos a Johnny Silverhand durante su ataque a la torre de Arasaka. Y escondía habitaciones que no aparecían a simple vista.",
+      "visual_tags": [
+        "church",
+        "biotechnica",
+        "servers",
+        "arcade",
+        "arasaka_tower_3d"
+      ]
     },
     {
       "heading": "Arasaka Tower 3D: paredes que esconden secretos",
-      "narration": "Al explorar Arasaka Tower 3D, los jugadores descubrieron que algunas paredes eran en realidad puertas secretas. En una zona del nivel cincuenta y dos aparecían salas con números específicos: 940204 y 941229. La tabla de puntuaciones también contenía nombres que llamaron la atención: Polyhistor, MRPHY y BLCKHND. La comunidad relacionó esos nombres con personajes conocidos del universo Cyberpunk, aunque conviene distinguir la interpretación de lo que el juego muestra directamente. Después de encontrar las salas y seguir las pistas, había que introducir una combinación para abrir una sección oculta. La secuencia documentada por las guías de la comunidad fue 240891. Al acertarla, se desbloqueaba un nivel secreto. Ya no se trataba de mirar una estatua: el juego estaba pidiendo resolver un recorrido completo."
+      "narration": "Al explorar Arasaka Tower 3D, los jugadores descubrieron que algunas paredes eran en realidad puertas secretas. En una zona del nivel cincuenta y dos aparecían salas con números específicos: 940204 y 941229. La tabla de puntuaciones también contenía nombres que llamaron la atención: Polyhistor, MRPHY y BLCKHND. La comunidad relacionó esos nombres con personajes conocidos del universo Cyberpunk, aunque conviene distinguir la interpretación de lo que el juego muestra directamente. Después de encontrar las salas y seguir las pistas, había que introducir una combinación para abrir una sección oculta. La secuencia documentada por las guías de la comunidad fue 240891. Al acertarla, se desbloqueaba un nivel secreto. Ya no se trataba de mirar una estatua: el juego estaba pidiendo resolver un recorrido completo.",
+      "visual_tags": [
+        "arasaka_tower_3d",
+        "arcade",
+        "secret_rooms",
+        "johnny_silverhand"
+      ]
     },
     {
       "heading": "El laberinto bajo la torre",
-      "narration": "El nivel secreto llevaba a un laberinto situado en el piso menos diez. El jugador debía avanzar por pasillos y bifurcaciones bajo presión de tiempo. Algunas paredes contenían fragmentos de un código QR que, al reunirse, conducían a más pistas digitales. La investigación también llevó a los jugadores a examinar archivos, símbolos y mensajes fuera de la máquina arcade. Era el tipo de rompecabezas que exige paciencia, colaboración y comparar descubrimientos de muchas personas. Una sola pista podía parecer insignificante, pero al combinarla con otra adquiría sentido. Después de completar la sección oculta, el camino regresaba a la iglesia, donde los servidores ya podían recibir códigos. La secuencia de eventos es compleja, y algunos pasos cambiaron con actualizaciones posteriores, por eso es importante no mezclar guías de distintas versiones del juego."
+      "narration": "El nivel secreto llevaba a un laberinto situado en el piso menos diez. El jugador debía avanzar por pasillos y bifurcaciones bajo presión de tiempo. Algunas paredes contenían fragmentos de un código QR que, al reunirse, conducían a más pistas digitales. La investigación también llevó a los jugadores a examinar archivos, símbolos y mensajes fuera de la máquina arcade. Era el tipo de rompecabezas que exige paciencia, colaboración y comparar descubrimientos de muchas personas. Una sola pista podía parecer insignificante, pero al combinarla con otra adquiría sentido. Después de completar la sección oculta, el camino regresaba a la iglesia, donde los servidores ya podían recibir códigos. La secuencia de eventos es compleja, y algunos pasos cambiaron con actualizaciones posteriores, por eso es importante no mezclar guías de distintas versiones del juego.",
+      "visual_tags": [
+        "maze",
+        "arasaka_tower_3d",
+        "qr_code",
+        "secret_level"
+      ]
     },
     {
       "heading": "Los servidores y el portátil del vertedero",
-      "narration": "La siguiente parte conectaba los servidores de la iglesia con otro hallazgo: un portátil escondido en el enorme vertedero de Night City. En su pantalla aparecía de nuevo el símbolo del ouroboros y una serie de signos que se mostraban y desaparecían. Al relacionar esos signos con el símbolo visto en The Witcher 3, los investigadores consiguieron descifrar ocho números: 00255, 00006, 00181, 00051, 00091, 00240, 00270 y 00420. Esos números podían introducirse en los terminales de la iglesia. Cuando los códigos eran aceptados, aparecía un nuevo mensaje y se revelaban coordenadas que señalaban un punto apartado en las Badlands. La búsqueda había pasado de una estatua a una máquina arcade, de ahí a un laberinto y después a una computadora abandonada. Pero todavía faltaba el desenlace."
+      "narration": "La siguiente parte conectaba los servidores de la iglesia con otro hallazgo: un portátil escondido en el enorme vertedero de Night City. En su pantalla aparecía de nuevo el símbolo del ouroboros y una serie de signos que se mostraban y desaparecían. Al relacionar esos signos con el símbolo visto en The Witcher 3, los investigadores consiguieron descifrar ocho números: 00255, 00006, 00181, 00051, 00091, 00240, 00270 y 00420. Esos números podían introducirse en los terminales de la iglesia. Cuando los códigos eran aceptados, aparecía un nuevo mensaje y se revelaban coordenadas que señalaban un punto apartado en las Badlands. La búsqueda había pasado de una estatua a una máquina arcade, de ahí a un laberinto y después a una computadora abandonada. Pero todavía faltaba el desenlace.",
+      "visual_tags": [
+        "dump",
+        "badlands",
+        "laptop",
+        "church_servers",
+        "ouroboros"
+      ]
     },
     {
       "heading": "La espera en las Badlands",
-      "narration": "Las coordenadas llevaban a un lugar aparentemente vacío en las Badlands. No había una gran instalación, ni un jefe final, ni una explicación inmediata. Había un colchón en medio del paisaje. La pista consistía en esperar allí durante bastante tiempo. Según la reconstrucción publicada por Prima Games, uno de los investigadores esperó alrededor de treinta minutos antes de que se activara una secuencia. En ella aparecía Polyhistor, el personaje cuyos mensajes habíamos seguido durante la investigación. Después de la escena, quedaban objetos en el lugar, entre ellos un portátil y un vehículo. El juego recompensaba a quienes completaban la cadena con la Mackinaw Monster Truck. Era una recompensa tangible, pero la escena también dejaba una sensación inquietante: habíamos seguido los pasos de alguien que parecía haber llegado al mismo misterio antes que nosotros."
+      "narration": "Las coordenadas llevaban a un lugar aparentemente vacío en las Badlands. No había una gran instalación, ni un jefe final, ni una explicación inmediata. Había un colchón en medio del paisaje. La pista consistía en esperar allí durante bastante tiempo. Según la reconstrucción publicada por Prima Games, uno de los investigadores esperó alrededor de treinta minutos antes de que se activara una secuencia. En ella aparecía Polyhistor, el personaje cuyos mensajes habíamos seguido durante la investigación. Después de la escena, quedaban objetos en el lugar, entre ellos un portátil y un vehículo. El juego recompensaba a quienes completaban la cadena con la Mackinaw Monster Truck. Era una recompensa tangible, pero la escena también dejaba una sensación inquietante: habíamos seguido los pasos de alguien que parecía haber llegado al mismo misterio antes que nosotros.",
+      "visual_tags": [
+        "badlands",
+        "mattress",
+        "polyhistor",
+        "monster_truck"
+      ]
     },
     {
       "heading": "¿Qué le pasó a Polyhistor?",
-      "narration": "Y aquí aparece la pregunta más interesante. La secuencia muestra a Polyhistor y luego deja sus pertenencias, pero no ofrece una explicación definitiva de lo que le ocurrió. Vandal recoge una teoría de la comunidad: quizá el personaje descubrió algo relacionado con la naturaleza artificial de su mundo, y el extraño cubo de la escena podría representar a los creadores del juego. También se ha especulado con una conexión entre el cuerpo encontrado en la zona secreta de The Witcher 3 y la desaparición de Polyhistor. Son interpretaciones, no una explicación oficial confirmada por CD Projekt Red. Lo que sí está documentado es que la cadena de acertijos tiene una ruta de resolución y una recompensa. Resolver el mecanismo no significa necesariamente comprender cada elemento de su historia."
+      "narration": "Y aquí aparece la pregunta más interesante. La secuencia muestra a Polyhistor y luego deja sus pertenencias, pero no ofrece una explicación definitiva de lo que le ocurrió. Vandal recoge una teoría de la comunidad: quizá el personaje descubrió algo relacionado con la naturaleza artificial de su mundo, y el extraño cubo de la escena podría representar a los creadores del juego. También se ha especulado con una conexión entre el cuerpo encontrado en la zona secreta de The Witcher 3 y la desaparición de Polyhistor. Son interpretaciones, no una explicación oficial confirmada por CD Projekt Red. Lo que sí está documentado es que la cadena de acertijos tiene una ruta de resolución y una recompensa. Resolver el mecanismo no significa necesariamente comprender cada elemento de su historia.",
+      "visual_tags": [
+        "polyhistor",
+        "cube",
+        "badlands",
+        "laptop"
+      ]
     },
     {
       "heading": "Un misterio resuelto… pero no explicado del todo",
-      "narration": "FF:06:B5 es un ejemplo extraordinario de cómo un detalle pequeño puede crecer gracias a una comunidad que observa, compara y experimenta. La secuencia de pistas llevó a los jugadores desde una estatua hasta The Witcher 3, una iglesia, una máquina arcade, un laberinto, varios servidores y un punto perdido en las Badlands. La ruta permite conseguir la Monster Truck, pero el significado narrativo de algunos símbolos y el destino de Polyhistor siguen abiertos a interpretación. Además, desarrolladores de Cyberpunk han reconocido que todavía existen easter eggs que los jugadores no han encontrado o que quizá nunca han compartido públicamente. Así que Night City todavía puede guardar sorpresas. Ahora queremos saber tu opinión: ¿crees que FF:06:B5 nació como un error que el estudio convirtió en un gran acertijo, o todo estaba planeado desde el principio? Te leemos en los comentarios. Y recuerda: en Night City, hasta una estatua puede esconder una historia enorme."
+      "narration": "FF:06:B5 es un ejemplo extraordinario de cómo un detalle pequeño puede crecer gracias a una comunidad que observa, compara y experimenta. La secuencia de pistas llevó a los jugadores desde una estatua hasta The Witcher 3, una iglesia, una máquina arcade, un laberinto, varios servidores y un punto perdido en las Badlands. La ruta permite conseguir la Monster Truck, pero el significado narrativo de algunos símbolos y el destino de Polyhistor siguen abiertos a interpretación. Además, desarrolladores de Cyberpunk han reconocido que todavía existen easter eggs que los jugadores no han encontrado o que quizá nunca han compartido públicamente. Así que Night City todavía puede guardar sorpresas. Ahora queremos saber tu opinión: ¿crees que FF:06:B5 nació como un error que el estudio convirtió en un gran acertijo, o todo estaba planeado desde el principio? Te leemos en los comentarios. Y recuerda: en Night City, hasta una estatua puede esconder una historia enorme.",
+      "visual_tags": [
+        "night_city",
+        "statue",
+        "badlands",
+        "exploration"
+      ]
     }
   ]
 }
