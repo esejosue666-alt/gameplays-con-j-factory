@@ -59,7 +59,7 @@ def stamp(seconds):
 
 def make_srt(text, duration, path):
     # Approximate phrase timing from character count; captions remain readable.
-    sentences = re.split(r"(?<=[.!?])\\s+", text.strip())
+    sentences = re.split(r"(?<=[.!?])\s+", text.strip())
     chunks = []
     for sentence in sentences:
         words = sentence.split()
@@ -83,10 +83,10 @@ def make_srt(text, duration, path):
         end = duration if i == len(chunks) else cursor + duration * weight / total
         lines.extend([str(i), f"{stamp(cursor)} --> {stamp(end)}", chunk, ""])
         cursor = end
-    path.write_text("\\n".join(lines), encoding="utf-8")
+    path.write_text("\n".join(lines), encoding="utf-8")
 
 def escape_filter_path(path):
-    return str(path).replace("\\", "/").replace(":", r"\\:")
+    return str(path).replace("\\", "/").replace(":", r"\:")
 
 def render_scene(scene, index, total, work):
     narration = str(scene.get("narration", "")).strip()
@@ -140,7 +140,7 @@ def main():
     work.mkdir(parents=True, exist_ok=True)
     clips = [render_scene(scene, i, len(scenes), work) for i, scene in enumerate(scenes)]
     concat = ROOT / "work/concat.txt"
-    concat.write_text("".join("file '" + p.as_posix() + "'\\n" for p in clips), encoding="utf-8")
+    concat.write_text("".join("file '" + p.as_posix() + "'\n" for p in clips), encoding="utf-8")
     out = ROOT / "output/final.mp4"
     out.parent.mkdir(exist_ok=True)
     run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat),
