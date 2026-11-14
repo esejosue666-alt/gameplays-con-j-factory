@@ -1,0 +1,37 @@
+name: Discover gameplay candidates
+
+on:
+  workflow_dispatch:
+    inputs:
+      episode_path:
+        description: "Episode JSON to search scene-by-scene"
+        required: true
+        default: "episodes/ep001_ff06b5.json"
+      results_per_scene:
+        description: "YouTube candidates per scene (1–10)"
+        required: true
+        default: "4"
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install discovery tool
+        run: python -m pip install --upgrade yt-dlp
+      - name: Search YouTube without downloading videos
+        run: |
+          python scripts/discover_gameplay.py "${{ inputs.episode_path }}" --results-per-scene "${{ inputs.results_per_scene }}"
+      - name: Save candidate report
+        uses: actions/upload-artifact@v4
+        with:
+          name: gameplay-candidates
+          path: output/gameplay_candidates.json
+          if-no-files-found: error
