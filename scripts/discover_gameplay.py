@@ -50,7 +50,7 @@ TAG_LABELS = {
 }
 
 def clean(value, limit=500):
-    value = re.sub(r"\\s+", " ", str(value or "")).strip()
+    value = re.sub(r"\s+", " ", str(value or "")).strip()
     return value[:limit]
 
 def build_query(episode_title, scene):
