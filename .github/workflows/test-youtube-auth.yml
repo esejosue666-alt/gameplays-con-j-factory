@@ -20,19 +20,25 @@ jobs:
 
       - name: Validate and refresh OAuth credentials
         env:
-          YOUTUBE_TOKEN_JSON: ${{ secrets.YOUTUBE_TOKEN_JSON }}
+          YOUTUBE_TOKEN_B64: ${{ secrets.YOUTUBE_TOKEN_B64 }}
         run: |
           python - <<'PY'
+          import base64
           import json
           import os
           from google.auth.transport.requests import Request
           from google.oauth2.credentials import Credentials
 
-          raw = os.environ.get("YOUTUBE_TOKEN_JSON")
-          if not raw:
-              raise SystemExit("FAIL: GitHub secret YOUTUBE_TOKEN_JSON is missing or empty.")
+          encoded = os.environ.get("YOUTUBE_TOKEN_B64", "").strip()
+          if not encoded:
+              raise SystemExit("FAIL: GitHub secret YOUTUBE_TOKEN_B64 is missing or empty.")
 
-          info = json.loads(raw)
+          try:
+              raw = base64.b64decode(encoded, validate=True).decode("utf-8")
+              info = json.loads(raw)
+          except Exception:
+              raise SystemExit("FAIL: Secret is not valid Base64-encoded token JSON.")
+
           required = ("client_id", "client_secret", "refresh_token")
           missing = [key for key in required if not info.get(key)]
           if missing:
