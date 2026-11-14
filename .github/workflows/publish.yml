@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       video_path:
-        description: "Repository path to the finished MP4"
+        description: "Repository path to the reviewed MP4"
         required: true
         default: "output/final.mp4"
       metadata_path:
-        description: "Repository path to the video's metadata JSON"
+        description: "Repository path to metadata JSON"
         required: true
         default: "output/metadata.json"
 
@@ -21,18 +21,15 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
       - name: Install dependencies
         run: pip install -r requirements.txt
-
-      - name: Upload video to YouTube
+      - name: Upload reviewed video to YouTube
         env:
-          YOUTUBE_TOKEN_JSON: ${{ secrets.YOUTUBE_TOKEN_JSON }}
+          YOUTUBE_TOKEN_B64: ${{ secrets.YOUTUBE_TOKEN_B64 }}
           VIDEO_PATH: ${{ inputs.video_path }}
           METADATA_PATH: ${{ inputs.metadata_path }}
         run: python scripts/youtube_upload.py
