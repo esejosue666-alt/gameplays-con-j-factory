@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-"""Upload a finished MP4 to the authenticated YouTube channel.
-
-Credentials are read from YOUTUBE_TOKEN_JSON. Never commit OAuth tokens.
-"""
+"""Upload a reviewed MP4. OAuth credentials come from YOUTUBE_TOKEN_B64."""
+import base64
 import json
 import os
 import sys
@@ -19,14 +17,18 @@ SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 def main() -> int:
     video_path = Path(os.getenv("VIDEO_PATH", "output/final.mp4"))
     metadata_path = Path(os.getenv("METADATA_PATH", "output/metadata.json"))
-    raw_token = os.getenv("YOUTUBE_TOKEN_JSON")
-
-    if not raw_token:
-        raise SystemExit("Missing YOUTUBE_TOKEN_JSON repository secret.")
+    encoded = os.getenv("YOUTUBE_TOKEN_B64", "").strip()
+    if not encoded:
+        raise SystemExit("Missing YOUTUBE_TOKEN_B64 repository secret.")
     if not video_path.is_file():
         raise SystemExit(f"Video file not found: {video_path}")
     if not metadata_path.is_file():
         raise SystemExit(f"Metadata file not found: {metadata_path}")
+
+    try:
+        info = json.loads(base64.b64decode(encoded, validate=True).decode("utf-8"))
+    except Exception:
+        raise SystemExit("YOUTUBE_TOKEN_B64 is not valid Base64-encoded OAuth JSON.")
 
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     title = str(metadata.get("title", "")).strip()
@@ -34,7 +36,6 @@ def main() -> int:
     tags = metadata.get("tags", [])
     category_id = str(metadata.get("categoryId", "20"))
     privacy = str(metadata.get("privacyStatus", "private"))
-
     if not title:
         raise SystemExit("metadata.json must contain a non-empty title.")
     if privacy not in {"private", "unlisted", "public"}:
@@ -42,18 +43,14 @@ def main() -> int:
     if not isinstance(tags, list) or not all(isinstance(t, str) for t in tags):
         raise SystemExit("tags must be a JSON array of strings.")
 
-    info = json.loads(raw_token)
     credentials = Credentials.from_authorized_user_info(info, SCOPES)
     if credentials.expired and credentials.refresh_token:
         credentials.refresh(Request())
-
     youtube = build("youtube", "v3", credentials=credentials)
     body = {
         "snippet": {
-            "title": title[:100],
-            "description": description[:5000],
-            "tags": tags[:500],
-            "categoryId": category_id,
+            "title": title[:100], "description": description[:5000],
+            "tags": tags[:500], "categoryId": category_id,
         },
         "status": {"privacyStatus": privacy, "selfDeclaredMadeForKids": False},
     }
