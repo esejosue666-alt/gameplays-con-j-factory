@@ -48,12 +48,7 @@ def make_card(scene, index, total, out, visual_override=None):
     base.convert("RGB").save(out, quality=94)
 
 def select_visual(scene, used_assets):
-    """Choose only explicitly approved local assets relevant to this scene."""
-    explicit = scene.get("visual")
-    if explicit:
-        candidate = ROOT / explicit
-        if candidate.is_file():
-            return candidate, str(candidate.resolve())
+    """Choose a relevant local asset only when its reuse rights and attribution are documented."""
     catalog_path = ROOT / "assets/gameplay/catalog.json"
     if not catalog_path.is_file():
         return None, None
@@ -68,7 +63,16 @@ def select_visual(scene, used_assets):
     for item in catalog.get("assets", []):
         if item.get("approved_for_use") is not True:
             continue
-        if item.get("rights_basis") not in {"own_recording", "written_permission", "license"}:
+        basis = item.get("rights_basis")
+        if basis not in {"own_recording", "written_permission", "license"}:
+            continue
+        if basis == "written_permission":
+            if not item.get("permission_evidence") or not item.get("creator_name") or not item.get("source_url"):
+                continue
+        if basis == "license":
+            if not item.get("license_url") or not item.get("creator_name") or not item.get("source_url"):
+                continue
+        if basis == "own_recording" and not item.get("source_note"):
             continue
         path = ROOT / str(item.get("path", ""))
         if not path.is_file() or path.resolve().as_posix() in used_assets:
@@ -76,12 +80,12 @@ def select_visual(scene, used_assets):
         tags = {str(tag).strip().lower() for tag in item.get("tags", [])}
         score = len(wanted.intersection(tags))
         if score:
-            ranked.append((score, path))
+            ranked.append((score, path, item))
     if not ranked:
         return None, None
     ranked.sort(key=lambda pair: pair[0], reverse=True)
     chosen = ranked[0][1]
-    return chosen, chosen.resolve().as_posix()
+    return chosen, chosen.resolve().as_posix(), ranked[0][2]
 
 async def speak(text, path):
     await edge_tts.Communicate(text, VOICE).save(str(path))
@@ -124,7 +128,7 @@ def make_srt(text, duration, path):
 def escape_filter_path(path):
     return str(path).replace("\\", "/").replace(":", r"\:")
 
-def render_scene(scene, index, total, work, used_assets):
+def render_scene(scene, index, total, work, used_assets, used_asset_items):
     narration = str(scene.get("narration", "")).strip()
     if not narration:
         raise SystemExit(f"Escena {index+1}: falta narration.")
@@ -135,10 +139,12 @@ def render_scene(scene, index, total, work, used_assets):
     duration = probe_duration(audio)
     make_srt(narration, duration, srt)
 
-    visual_path, visual_key = select_visual(scene, used_assets)
+    selected = select_visual(scene, used_assets)
+    visual_path, visual_key, asset_item = selected if selected else (None, None, None)
     valid_visual = visual_path and visual_path.is_file()
     if valid_visual and visual_key:
         used_assets.add(visual_key)
+        used_asset_items[visual_key] = asset_item
     is_video = bool(valid_visual and visual_path.suffix.lower() in {".mp4", ".mov", ".mkv", ".webm"})
     if not valid_visual or not is_video:
         card = work / f"card_{index:03d}.jpg"
@@ -176,22 +182,44 @@ def main():
     work = ROOT / "work/scenes"
     work.mkdir(parents=True, exist_ok=True)
     used_assets = set()
-    clips = [render_scene(scene, i, len(scenes), work, used_assets) for i, scene in enumerate(scenes)]
+    used_asset_items = {}
+    clips = [render_scene(scene, i, len(scenes), work, used_assets, used_asset_items) for i, scene in enumerate(scenes)]
     concat = ROOT / "work/concat.txt"
     concat.write_text("".join("file '" + p.as_posix() + "'\n" for p in clips), encoding="utf-8")
     out = ROOT / "output/final.mp4"
     out.parent.mkdir(exist_ok=True)
     run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat),
          "-c", "copy", "-movflags", "+faststart", str(out)])
+    description = str(data.get("description", "")).strip()
+    credits = []
+    for item in used_asset_items.values():
+        basis = item.get("rights_basis")
+        if basis == "own_recording":
+            continue
+        creator = str(item.get("creator_name", "Creador no especificado")).strip()
+        channel = str(item.get("creator_channel_url", "")).strip()
+        source = str(item.get("source_url", "")).strip()
+        license_url = str(item.get("license_url", "")).strip()
+        label = str(item.get("attribution_text", "")).strip() or f"Gameplay: {creator}"
+        line = f"- {label}"
+        if channel:
+            line += f" | Canal: {channel}"
+        if source:
+            line += f" | Clip original: {source}"
+        if license_url:
+            line += f" | Licencia: {license_url}"
+        credits.append(line)
+    if credits:
+        description += "\n\nGAMEPLAY DE TERCEROS — CRÉDITOS Y FUENTES\n" + "\n".join(dict.fromkeys(credits))
     meta = {
         "title": str(data.get("title", "Video de Gameplays con J"))[:100],
-        "description": str(data.get("description", ""))[:5000],
+        "description": description[:5000],
         "tags": data.get("tags", ["videojuegos", "misterios"]),
         "categoryId": "20", "privacyStatus": "private"
     }
     (ROOT / "output/metadata.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
     print("VIDEO_READY=" + str(out))
-    print("Borrador generado. Se priorizan clips/imágenes locales aprobados y etiquetados; las escenas sin coincidencia usan tarjetas de respaldo. Verifica derechos y sincronización antes de publicar.")
+    print(f"Borrador generado. Assets aprobados usados: {len(used_asset_items)}. Sus créditos se añadieron a metadata.json. Las escenas sin coincidencia usan tarjetas de respaldo.")
 
 if __name__ == "__main__":
     main()
