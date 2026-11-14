@@ -19,7 +19,7 @@ La mezcla de contenidos y las reglas de investigación están definidas en `conf
 
 ## Generar un borrador
 1. Abre **Actions → Render video draft → Run workflow**.
-2. Deja `episodes/demo.json` para la primera prueba.
+2. Para el primer episodio real, cambia `episode_path` a `episodes/ep001_ff06b5.json`. Para la prueba técnica, usa `episodes/demo.json`.
 3. Descarga el artefacto **video-draft** al terminar.
 4. Se genera un MP4 y un JSON de metadatos; no se publica nada.
 
@@ -37,7 +37,8 @@ El workflow **Publish finished YouTube video** es manual y usa el secreto `YOUTU
 
 ## Archivos
 - `scripts/render_video.py`: genera voz y monta escenas.
-- `episodes/demo.json`: episodio de demostración.
+- `episodes/demo.json`: episodio de demostración técnica.
+- `episodes/ep001_ff06b5.json`: primer guion de 10 escenas sobre el misterio FF:06:B5 de Cyberpunk 2077.
 - `scripts/youtube_upload.py`: sube un MP4 terminado.
 - `.github/workflows/render-video.yml`: renderizado manual.
 - `.github/workflows/publish.yml`: publicación manual.
