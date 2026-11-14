@@ -29,8 +29,8 @@ def font(size, bold=False):
             return ImageFont.truetype(name, size)
     return ImageFont.load_default()
 
-def make_card(scene, index, total, out):
-    src = scene.get("visual")
+def make_card(scene, index, total, out, visual_override=None):
+    src = visual_override or scene.get("visual")
     if src and (ROOT / src).is_file() and Path(src).suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}:
         base = Image.open(ROOT / src).convert("RGB").resize((W, H)).convert("RGBA")
         base = Image.alpha_composite(base, Image.new("RGBA", (W, H), (0, 0, 0, 135)))
@@ -46,6 +46,42 @@ def make_card(scene, index, total, out):
     d.text((135, 215), str(scene.get("heading") or f"Parte {index+1}")[:90], font=font(62, True), fill="white")
     d.text((135, H-145), f"{index+1:02d} / {total:02d}", font=font(28, True), fill=(170, 210, 225, 255))
     base.convert("RGB").save(out, quality=94)
+
+def select_visual(scene, used_assets):
+    """Choose only explicitly approved local assets relevant to this scene."""
+    explicit = scene.get("visual")
+    if explicit:
+        candidate = ROOT / explicit
+        if candidate.is_file():
+            return candidate, str(candidate.resolve())
+    catalog_path = ROOT / "assets/gameplay/catalog.json"
+    if not catalog_path.is_file():
+        return None, None
+    try:
+        catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None, None
+    wanted = {str(tag).strip().lower() for tag in scene.get("visual_tags", [])}
+    if not wanted:
+        return None, None
+    ranked = []
+    for item in catalog.get("assets", []):
+        if item.get("approved_for_use") is not True:
+            continue
+        if item.get("rights_basis") not in {"own_recording", "written_permission", "license"}:
+            continue
+        path = ROOT / str(item.get("path", ""))
+        if not path.is_file() or path.resolve().as_posix() in used_assets:
+            continue
+        tags = {str(tag).strip().lower() for tag in item.get("tags", [])}
+        score = len(wanted.intersection(tags))
+        if score:
+            ranked.append((score, path))
+    if not ranked:
+        return None, None
+    ranked.sort(key=lambda pair: pair[0], reverse=True)
+    chosen = ranked[0][1]
+    return chosen, chosen.resolve().as_posix()
 
 async def speak(text, path):
     await edge_tts.Communicate(text, VOICE).save(str(path))
@@ -88,7 +124,7 @@ def make_srt(text, duration, path):
 def escape_filter_path(path):
     return str(path).replace("\\", "/").replace(":", r"\:")
 
-def render_scene(scene, index, total, work):
+def render_scene(scene, index, total, work, used_assets):
     narration = str(scene.get("narration", "")).strip()
     if not narration:
         raise SystemExit(f"Escena {index+1}: falta narration.")
@@ -99,22 +135,23 @@ def render_scene(scene, index, total, work):
     duration = probe_duration(audio)
     make_srt(narration, duration, srt)
 
-    visual = scene.get("visual")
-    visual_path = ROOT / visual if visual else None
+    visual_path, visual_key = select_visual(scene, used_assets)
     valid_visual = visual_path and visual_path.is_file()
+    if valid_visual and visual_key:
+        used_assets.add(visual_key)
     is_video = bool(valid_visual and visual_path.suffix.lower() in {".mp4", ".mov", ".mkv", ".webm"})
     if not valid_visual or not is_video:
         card = work / f"card_{index:03d}.jpg"
-        make_card(scene, index, total, card)
+        make_card(scene, index, total, card, str(visual_path) if valid_visual else None)
         visual_path = card
 
     subtitles = escape_filter_path(srt)
     filters = (
         "scale=1920:1080:force_original_aspect_ratio=increase,"
         "crop=1920:1080,setsar=1,eq=brightness=-0.16,"
-        f"subtitles='{subtitles}':force_style='FontName=DejaVu Sans,FontSize=24,"
+        f"subtitles='{subtitles}':force_style='FontName=DejaVu Sans,FontSize=21,"
         "Bold=1,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
-        "BorderStyle=1,Outline=3,Shadow=1,Alignment=2,MarginV=70'"
+        "BorderStyle=1,Outline=2,Shadow=1,Alignment=2,MarginV=58'"
     )
     cmd = ["ffmpeg", "-y"]
     if is_video:
@@ -138,7 +175,8 @@ def main():
         raise SystemExit("El episodio necesita al menos una escena.")
     work = ROOT / "work/scenes"
     work.mkdir(parents=True, exist_ok=True)
-    clips = [render_scene(scene, i, len(scenes), work) for i, scene in enumerate(scenes)]
+    used_assets = set()
+    clips = [render_scene(scene, i, len(scenes), work, used_assets) for i, scene in enumerate(scenes)]
     concat = ROOT / "work/concat.txt"
     concat.write_text("".join("file '" + p.as_posix() + "'\n" for p in clips), encoding="utf-8")
     out = ROOT / "output/final.mp4"
@@ -153,7 +191,7 @@ def main():
     }
     (ROOT / "output/metadata.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
     print("VIDEO_READY=" + str(out))
-    print("Borrador generado. Las escenas sin visual local usan tarjetas de respaldo; verifica derechos y sincronización antes de publicar.")
+    print("Borrador generado. Se priorizan clips/imágenes locales aprobados y etiquetados; las escenas sin coincidencia usan tarjetas de respaldo. Verifica derechos y sincronización antes de publicar.")
 
 if __name__ == "__main__":
     main()
