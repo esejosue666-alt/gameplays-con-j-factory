@@ -1,0 +1,28 @@
+{
+  "title": "Prueba técnica: cómo investigar un misterio de videojuegos",
+  "description": "Borrador técnico de Gameplays con J. No publicar: es una demostración del sistema.",
+  "tags": [
+    "videojuegos",
+    "misterios",
+    "secretos",
+    "Gameplays con J"
+  ],
+  "scenes": [
+    {
+      "heading": "Un detalle puede cambiarlo todo",
+      "narration": "En muchos videojuegos, los detalles más interesantes no aparecen en una misión principal ni en una cinemática espectacular. A veces están escondidos en una habitación que casi nadie visita, en una frase que parece decorativa o en un objeto que no tiene explicación a primera vista. En este episodio veremos cómo analizar un misterio sin confundir las teorías de la comunidad con información confirmada. Esta es una demostración de formato y no una investigación terminada."
+    },
+    {
+      "heading": "Pistas, interpretaciones y teorías",
+      "narration": "La primera regla es separar tres niveles. Una pista es algo que realmente aparece en el juego: un texto, una imagen, un sonido o una ubicación. Una interpretación es una explicación posible de esa pista. Y una teoría conecta varias interpretaciones para proponer una historia más grande. Cuando un creador mezcla esos niveles, puede presentar una especulación como si fuera un hecho. En Gameplays con J señalaremos qué está confirmado, qué es interpretación y qué sigue siendo una pregunta abierta."
+    },
+    {
+      "heading": "Cómo construir un episodio",
+      "narration": "Un episodio completo necesita contexto, evidencia y conclusión. Primero explicamos dónde aparece el detalle y qué estaba pasando en el juego. Después mostramos la pista con gameplay propio, describimos lo que se observa y contrastamos la explicación con fuentes fiables. Finalmente respondemos qué sabemos, qué no sabemos y por qué el misterio merece atención. Esta estructura evita alargar el video repitiendo la misma idea y ayuda a que cada minuto aporte información nueva."
+    },
+    {
+      "heading": "Fin de la prueba",
+      "narration": "Este archivo es solamente una prueba técnica de voz y edición. Todavía no es un video de investigación de ocho minutos ni debe publicarse como episodio terminado. El siguiente paso será elegir un videojuego y un misterio concreto, reunir fuentes verificables, redactar un guion original de duración suficiente y añadir capturas o clips que podamos utilizar legalmente. Así convertiremos esta plantilla en un formato real para Gameplays con J."
+    }
+  ]
+}
