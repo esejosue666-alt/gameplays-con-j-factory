@@ -1,38 +1,39 @@
 # Gameplays con J — Fábrica de videos
 
-Proyecto inicial para preparar y publicar videos terminados en el canal **Gameplays con J**.
+MVP para preparar videos narrados y publicarlos de forma controlada en **Gameplays con J**.
 
-## Estado actual
+## Estado
+- [x] OAuth de YouTube validado mediante GitHub Actions.
+- [x] Workflow manual para generar un borrador MP4.
+- [x] Narración en español mediante Edge TTS.
+- [x] Tarjetas visuales por escena; admite imágenes propias.
+- [x] Workflow de subida separado y manual.
+- [ ] Investigación web automatizada y verificación de fuentes.
+- [ ] Generación automática de guiones originales de al menos 8 minutos.
+- [ ] Integración de gameplay/capturas con derechos de uso.
+- [ ] Prueba de subida privada y automatización posterior.
 
-- [x] Repositorio conectado.
-- [x] Script inicial para subir un MP4 a YouTube Data API.
-- [x] Workflow manual de GitHub Actions.
-- [ ] Generación automática de investigación, guion, voz, imágenes y edición.
-- [ ] Autorización OAuth de YouTube y prueba privada de subida.
-- [ ] Publicación automática al finalizar una producción.
+## Generar un borrador
+1. Abre **Actions → Render video draft → Run workflow**.
+2. Deja `episodes/demo.json` para la primera prueba.
+3. Descarga el artefacto **video-draft** al terminar.
+4. Se genera un MP4 y un JSON de metadatos; no se publica nada.
 
-**Importante:** este repositorio todavía no genera videos completos. El workflow actual solo sube un MP4 ya terminado y se inicia manualmente; no publica nada automáticamente al hacer push.
+Cada escena requiere `heading` y `narration`. Puede incluir `image` con una ruta a una imagen del repositorio. Si no hay imagen, se genera una tarjeta gráfica. Para episodios reales, usa gameplay/capturas propios o material con licencia compatible.
 
-## Preparar un video
-
-1. Coloca un MP4 terminado en `output/final.mp4`.
-2. Copia `output/metadata.example.json` a `output/metadata.json` y edita título, descripción y etiquetas.
-3. Configura el secreto `YOUTUBE_TOKEN_JSON` en GitHub: Settings → Secrets and variables → Actions → New repository secret.
-4. En Actions, ejecuta **Publish finished YouTube video** manualmente.
-5. El workflow usa `privacyStatus: private` por defecto. Mantén la primera prueba como privada.
-
-El secreto debe contener el JSON de credenciales de usuario OAuth autorizado para el scope `https://www.googleapis.com/auth/youtube.upload`, con `client_id`, `client_secret` y `refresh_token`. No pegues credenciales, tokens ni el archivo OAuth en issues, commits o chats. No uses una API key: no permite subir videos.
-
-## OAuth: advertencia sobre Testing
-
-Si la pantalla de consentimiento OAuth de Google está en **Testing** y la aplicación es externa, los refresh tokens para estos scopes pueden caducar a los 7 días. Por tanto, no es adecuado para una automatización semanal permanente. Para uso continuo habrá que configurar correctamente el estado de publicación y completar cualquier verificación que Google exija. No cambies a producción ni publiques públicamente sin revisar los requisitos de Google.
+## Publicación
+El workflow **Publish finished YouTube video** es manual y usa el secreto `YOUTUBE_TOKEN_B64` con el token OAuth codificado en Base64. La privacidad predeterminada es `private`. No ejecutes la publicación hasta revisar el MP4 y sus metadatos.
 
 ## Límites
+- Edge TTS depende de un servicio en línea y no garantiza disponibilidad continua.
+- El renderizador actual genera voz y tarjetas visuales; todavía no investiga ni redacta automáticamente el guion.
+- GitHub Actions no es un servidor 24/7 y tiene cuotas.
+- OAuth externo en estado **Testing** puede caducar refresh tokens a los 7 días para estos scopes.
+- No se garantiza viralidad, monetización ni visitas.
 
-GitHub Actions ejecuta trabajos en máquinas temporales; no es un servidor 24/7. Los límites gratuitos dependen del tipo de repositorio y de las cuotas vigentes de GitHub. La publicación también está sujeta a las cuotas y políticas de YouTube Data API.
-
-## Estructura
-
-- `scripts/youtube_upload.py`: carga un MP4 terminado.
-- `output/metadata.example.json`: plantilla de metadatos.
-- `.github/workflows/publish.yml`: workflow manual de publicación.
+## Archivos
+- `scripts/render_video.py`: genera voz y monta escenas.
+- `episodes/demo.json`: episodio de demostración.
+- `scripts/youtube_upload.py`: sube un MP4 terminado.
+- `.github/workflows/render-video.yml`: renderizado manual.
+- `.github/workflows/publish.yml`: publicación manual.
