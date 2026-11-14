@@ -1,0 +1,51 @@
+name: Test YouTube OAuth connection
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-oauth:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Google authentication libraries
+        run: pip install "google-auth>=2.35.0" "google-auth-httplib2>=0.2.0"
+
+      - name: Validate and refresh OAuth credentials
+        env:
+          YOUTUBE_TOKEN_JSON: ${{ secrets.YOUTUBE_TOKEN_JSON }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from google.auth.transport.requests import Request
+          from google.oauth2.credentials import Credentials
+
+          raw = os.environ.get("YOUTUBE_TOKEN_JSON")
+          if not raw:
+              raise SystemExit("FAIL: GitHub secret YOUTUBE_TOKEN_JSON is missing or empty.")
+
+          info = json.loads(raw)
+          required = ("client_id", "client_secret", "refresh_token")
+          missing = [key for key in required if not info.get(key)]
+          if missing:
+              raise SystemExit("FAIL: OAuth JSON is missing: " + ", ".join(missing))
+
+          credentials = Credentials.from_authorized_user_info(
+              info,
+              ["https://www.googleapis.com/auth/youtube.upload"],
+          )
+          credentials.refresh(Request())
+          if not credentials.token:
+              raise SystemExit("FAIL: Google did not return an access token.")
+
+          print("SUCCESS: GitHub secret is valid and Google OAuth refresh succeeded.")
+          print("No video was uploaded.")
+          PY
