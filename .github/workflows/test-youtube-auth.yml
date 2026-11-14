@@ -16,7 +16,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install Google authentication libraries
-        run: pip install "google-auth>=2.35.0" "google-auth-httplib2>=0.2.0"
+        run: pip install "google-auth>=2.35.0" "google-auth-httplib2>=0.2.0" "requests>=2.32.0"
 
       - name: Validate and refresh OAuth credentials
         env:
