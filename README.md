@@ -11,7 +11,8 @@ MVP para preparar videos narrados y publicarlos de forma controlada en **Gamepla
 - [ ] Investigación web automatizada y verificación de fuentes.
 - [x] Plan editorial mixto: 40% misterios, 30% historias oscuras y 30% curiosidades.
 - [ ] Generación automática de guiones originales de al menos 8 minutos.
-- [ ] Integración de gameplay/capturas con derechos de uso.
+- [x] Selector automático de clips/imágenes locales aprobados según etiquetas de cada escena.
+- [ ] Búsqueda web automatizada y descarga segura de material con permiso/licencia verificable.
 - [ ] Prueba de subida privada y automatización posterior.
 
 ## Plan editorial
@@ -23,7 +24,9 @@ La mezcla de contenidos y las reglas de investigación están definidas en `conf
 3. Descarga el artefacto **video-draft** al terminar.
 4. Se genera un MP4 y un JSON de metadatos; no se publica nada.
 
-Cada escena requiere `heading` y `narration`. Puede incluir `image` con una ruta a una imagen del repositorio. Si no hay imagen, se genera una tarjeta gráfica. Para episodios reales, usa gameplay/capturas propios o material con licencia compatible.
+Cada escena requiere `heading` y `narration`. Puede incluir `visual` para fijar un archivo o `visual_tags` para que el selector busque una coincidencia en `assets/gameplay/catalog.json`. Solo se utilizan archivos locales marcados `approved_for_use: true` y con base de derechos válida (`own_recording`, `written_permission` o `license`). Si no hay coincidencia aprobada, se genera una tarjeta de respaldo; nunca se elige gameplay aleatorio.
+
+Consulta `assets/gameplay/README.md` para añadir material. Para Cyberpunk 2077, CD PROJEKT RED permite publicar gameplay relacionado con sus juegos y monetizarlo mediante programas de socios, pero recomienda activar “Desactivar música con derechos de autor”; la música puede tener derechos de terceros. La política no concede permiso para reutilizar grabaciones hechas por otros creadores. Consulta la [política oficial de vídeo](https://www.cdprojektred.com/es-mx/videopolicy) y las [directrices de contenido para fans](https://www.cdprojektred.com/es-mx/fan-content).
 
 ## Publicación
 El workflow **Publish finished YouTube video** es manual y usa el secreto `YOUTUBE_TOKEN_B64` con el token OAuth codificado en Base64. La privacidad predeterminada es `private`. No ejecutes la publicación hasta revisar el MP4 y sus metadatos.
@@ -36,7 +39,7 @@ El workflow **Publish finished YouTube video** es manual y usa el secreto `YOUTU
 - No se garantiza viralidad, monetización ni visitas.
 
 ## Archivos
-- `scripts/render_video.py`: genera voz y monta escenas.
+- `scripts/render_video.py`: genera voz, subtítulos y monta escenas con selección de visuales aprobados.
 - `episodes/demo.json`: episodio de demostración técnica.
 - `episodes/ep001_ff06b5.json`: primer guion de 10 escenas sobre el misterio FF:06:B5 de Cyberpunk 2077.
 - `scripts/youtube_upload.py`: sube un MP4 terminado.
