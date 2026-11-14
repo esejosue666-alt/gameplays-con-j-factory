@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "policy": "Solo se seleccionan archivos locales con approved_for_use=true y rights_basis válido. No se descargan vídeos de terceros automáticamente.",
+  "assets": []
+}
