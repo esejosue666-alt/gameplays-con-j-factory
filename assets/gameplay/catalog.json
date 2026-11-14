@@ -1,5 +1,5 @@
 {
-  "version": 1,
-  "policy": "Solo se seleccionan archivos locales con approved_for_use=true y rights_basis válido. No se descargan vídeos de terceros automáticamente.",
+  "version": 2,
+  "policy": "Se admite gameplay de terceros solo con permiso expreso documentado o licencia verificable compatible con edición y uso comercial. Dar crédito o enlazar el canal no sustituye el permiso. La fábrica añade automáticamente atribuciones de los assets aprobados a la descripción de YouTube.",
   "assets": []
 }
