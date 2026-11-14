@@ -9,9 +9,13 @@ MVP para preparar videos narrados y publicarlos de forma controlada en **Gamepla
 - [x] Tarjetas visuales por escena; admite imágenes propias.
 - [x] Workflow de subida separado y manual.
 - [ ] Investigación web automatizada y verificación de fuentes.
+- [x] Plan editorial mixto: 40% misterios, 30% historias oscuras y 30% curiosidades.
 - [ ] Generación automática de guiones originales de al menos 8 minutos.
 - [ ] Integración de gameplay/capturas con derechos de uso.
 - [ ] Prueba de subida privada y automatización posterior.
+
+## Plan editorial
+La mezcla de contenidos y las reglas de investigación están definidas en `config/editorial_plan.json`: videos de 8–12 minutos, voz masculina mexicana `es-MX-JorgeNeural`, separación entre hechos y teorías, fuentes verificables y revisión antes de publicar.
 
 ## Generar un borrador
 1. Abre **Actions → Render video draft → Run workflow**.
