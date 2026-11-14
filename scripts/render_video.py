@@ -51,14 +51,14 @@ def select_visual(scene, used_assets):
     """Choose a relevant local asset only when its reuse rights and attribution are documented."""
     catalog_path = ROOT / "assets/gameplay/catalog.json"
     if not catalog_path.is_file():
-        return None, None
+        return None, None, None
     try:
         catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
-        return None, None
+        return None, None, None
     wanted = {str(tag).strip().lower() for tag in scene.get("visual_tags", [])}
     if not wanted:
-        return None, None
+        return None, None, None
     ranked = []
     for item in catalog.get("assets", []):
         if item.get("approved_for_use") is not True:
@@ -82,7 +82,7 @@ def select_visual(scene, used_assets):
         if score:
             ranked.append((score, path, item))
     if not ranked:
-        return None, None
+        return None, None, None
     ranked.sort(key=lambda pair: pair[0], reverse=True)
     chosen = ranked[0][1]
     return chosen, chosen.resolve().as_posix(), ranked[0][2]
