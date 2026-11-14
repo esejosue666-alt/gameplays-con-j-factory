@@ -1,0 +1,37 @@
+name: Render video draft
+
+on:
+  workflow_dispatch:
+    inputs:
+      episode_path:
+        description: "JSON del episodio dentro del repositorio"
+        required: true
+        default: "episodes/demo.json"
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+      - name: Install renderer dependencies
+        run: pip install "edge-tts>=7.0.0" "Pillow>=10.0.0"
+      - name: Render draft
+        run: python scripts/render_video.py "${{ inputs.episode_path }}"
+      - name: Save MP4 and metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-draft
+          path: |
+            output/final.mp4
+            output/metadata.json
+          if-no-files-found: error
