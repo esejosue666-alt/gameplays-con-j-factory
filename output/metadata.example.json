@@ -1,0 +1,11 @@
+{
+  "title": "Título del video",
+  "description": "Descripción del video.",
+  "tags": [
+    "videojuegos",
+    "misterios",
+    "gameplay"
+  ],
+  "categoryId": "20",
+  "privacyStatus": "private"
+}
