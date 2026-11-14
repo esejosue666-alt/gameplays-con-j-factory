@@ -7,7 +7,7 @@ import edge_tts
 
 ROOT=Path(__file__).resolve().parents[1]
 W,H=1920,1080
-VOICE="es-MX-DaliaNeural"
+VOICE="es-MX-JorgeNeural"
 
 def run(cmd): subprocess.run(cmd,check=True)
 def font(size,bold=False):
