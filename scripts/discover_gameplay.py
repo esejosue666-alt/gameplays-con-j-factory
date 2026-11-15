@@ -86,49 +86,71 @@ def main():
     }
     opts = {
         "quiet": True,
-        "no_warnings": True,
+        "no_warnings": False,
         "skip_download": True,
         "extract_flat": "in_playlist",
-        "ignoreerrors": True,
-        "socket_timeout": 20,
-        "extractor_retries": 1,
+        "ignoreerrors": False,
+        "socket_timeout": 30,
+        "extractor_retries": 3,
         "playlistend": args.results_per_scene,
     }
     with YoutubeDL(opts) as ydl:
         for index, scene in enumerate(scenes, 1):
             query = build_query(data.get("title", ""), scene)
+            # Retry with a shorter query if the detailed scene query returns no entries.
+            tags = [TAG_LABELS.get(str(t).lower(), str(t).replace("_", " ")) for t in scene.get("visual_tags", [])]
+            short_query = clean("Cyberpunk 2077 " + " ".join(tags[:2]) + " gameplay", 160)
+            queries = [query]
+            if short_query.lower() != query.lower():
+                queries.append(short_query)
             entry = {
                 "scene_number": index,
                 "scene_heading": clean(scene.get("heading", f"Scene {index}"), 180),
                 "visual_tags": scene.get("visual_tags", []),
                 "search_query": query,
+                "search_attempts": [],
                 "candidates": [],
                 "search_error": None,
+                "empty_reason": None,
             }
-            try:
-                info = ydl.extract_info(f"ytsearch{args.results_per_scene}:{query}", download=False)
-                for video in (info or {}).get("entries", []) or []:
-                    if not video:
-                        continue
-                    video_id = clean(video.get("id", ""), 80)
-                    url = clean(video.get("webpage_url") or (f"https://www.youtube.com/watch?v={video_id}" if video_id else ""), 500)
-                    if not url:
-                        continue
-                    entry["candidates"].append({
-                        "title": clean(video.get("title"), 240),
-                        "creator_name": clean(video.get("uploader") or video.get("channel"), 180),
-                        "creator_channel_url": clean(video.get("uploader_url") or video.get("channel_url"), 500),
-                        "source_url": url,
-                        "duration_seconds": video.get("duration"),
-                        "view_count_at_search": video.get("view_count"),
-                        "upload_date": clean(video.get("upload_date"), 16),
-                        "license_metadata": clean(video.get("license"), 160),
-                        "permission_status": "not_verified",
-                        "approved_for_use": False,
-                        "review_note": "Contact the recording's rights holder or independently verify a compatible license. Credit alone is insufficient.",
-                    })
-            except Exception as exc:
-                entry["search_error"] = clean(f"{type(exc).__name__}: {exc}", 500)
+            for attempt_query in queries:
+                entry["search_attempts"].append(attempt_query)
+                try:
+                    info = ydl.extract_info(
+                        f"ytsearch{args.results_per_scene}:{attempt_query}",
+                        download=False,
+                    )
+                    videos = (info or {}).get("entries", []) or []
+                    for video in videos:
+                        if not video:
+                            continue
+                        video_id = clean(video.get("id", ""), 80)
+                        url = clean(video.get("webpage_url") or (f"https://www.youtube.com/watch?v={video_id}" if video_id else ""), 500)
+                        if not url:
+                            continue
+                        if any(item["source_url"] == url for item in entry["candidates"]):
+                            continue
+                        entry["candidates"].append({
+                            "title": clean(video.get("title"), 240),
+                            "creator_name": clean(video.get("uploader") or video.get("channel"), 180),
+                            "creator_channel_url": clean(video.get("uploader_url") or video.get("channel_url"), 500),
+                            "source_url": url,
+                            "duration_seconds": video.get("duration"),
+                            "view_count_at_search": video.get("view_count"),
+                            "upload_date": clean(video.get("upload_date"), 16),
+                            "license_metadata": clean(video.get("license"), 160),
+                            "permission_status": "not_verified",
+                            "approved_for_use": False,
+                            "review_note": "Contact the recording's rights holder or independently verify a compatible license. Credit alone is insufficient.",
+                        })
+                    if entry["candidates"]:
+                        break
+                    entry["empty_reason"] = "YouTube search returned no entries for this query."
+                except Exception as exc:
+                    entry["search_error"] = clean(f"{type(exc).__name__}: {exc}", 500)
+                    print(f"Search failed for scene {index}: {entry['search_error']}")
+                    # Try the shorter fallback query after an extractor/search failure.
+                    continue
             report["scenes"].append(entry)
             print(f"Scene {index}/{len(scenes)}: {len(entry['candidates'])} candidate(s)")
             time.sleep(1)
