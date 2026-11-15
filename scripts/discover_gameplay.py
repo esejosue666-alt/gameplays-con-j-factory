@@ -151,6 +151,8 @@ def main():
                     print(f"Search failed for scene {index}: {entry['search_error']}")
                     # Try the shorter fallback query after an extractor/search failure.
                     continue
+            if entry["candidates"]:
+                entry["empty_reason"] = None
             report["scenes"].append(entry)
             print(f"Scene {index}/{len(scenes)}: {len(entry['candidates'])} candidate(s)")
             time.sleep(1)
