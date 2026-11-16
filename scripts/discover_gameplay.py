@@ -6,6 +6,7 @@ heuristic only; it does not verify video contents or reuse permissions.
 """
 import argparse
 import json
+import math
 import re
 import sys
 import time
@@ -101,20 +102,41 @@ def build_queries(scene, scene_number):
     tags = [str(t).replace("_", " ") for t in scene.get("visual_tags", [])]
     return [clean("Cyberpunk 2077 " + " ".join(tags[:3]) + " gameplay", 220)]
 
+ATTENTION_TERMS = [
+    "combat", "boss fight", "chase", "pursuit", "explosion", "explosive",
+    "intense", "cinematic", "rare", "hidden", "secret", "mystery",
+    "discovered", "discovery", "easter egg", "cutscene", "reveal",
+    "surprise", "surprising", "scary", "creepy", "glitch", "all secrets",
+    "full run", "no damage", "legendary", "underground",
+]
+
 def relevance(title, scene_number):
-    """Small explainable title-only score; never treats a match as verification."""
+    """Scene-specific title score; does not verify the actual footage."""
     title_l = clean(title, 300).lower()
     terms = SCENE_TERMS.get(scene_number, [])
     matched = [term for term in terms if term in title_l]
     score = len(matched)
-    # Reward distinctive multiword phrases more than generic single words.
     score += sum(1 for term in matched if " " in term)
     return score, matched
+
+def attention_signals(title):
+    title_l = clean(title, 300).lower()
+    return [term for term in ATTENTION_TERMS if term in title_l]
+
+def score_candidate(relevance_score, attention_matches, view_count):
+    # Scene relevance dominates; hook wording and views are secondary signals.
+    relevance_part = min(relevance_score / 7.0, 1.0)
+    hook_part = min(len(attention_matches) / 3.0, 1.0)
+    try:
+        popularity_part = min(math.log10(max(int(view_count or 0), 0) + 1) / 7.0, 1.0)
+    except (TypeError, ValueError):
+        popularity_part = 0.0
+    return round(100 * (0.70 * relevance_part + 0.20 * hook_part + 0.10 * popularity_part), 1)
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("episode_path")
-    parser.add_argument("--results-per-scene", type=int, default=4)
+    parser.add_argument("--results-per-scene", type=int, default=6)
     parser.add_argument("--queries-per-scene", type=int, default=3)
     args = parser.parse_args()
     if not 1 <= args.results_per_scene <= 10:
@@ -134,7 +156,7 @@ def main():
         "created_at": datetime.now(timezone.utc).isoformat(),
         "episode": str(data.get("title", episode_path.name)),
         "notice": "Candidates only. No video was downloaded. Title relevance is heuristic and does not verify footage. YouTube attribution does not grant reuse permission. Obtain and retain permission or verify a compatible license before use.",
-        "ranking_method": "Title-only keyword heuristic; manually inspect every candidate.",
+        "ranking_method": "Heuristic: 70% scene-title relevance, 20% attention-hook words, 10% log-scaled view count. Metadata only; it does not inspect footage, measure real retention, or verify reuse rights.",
         "scenes": [],
     }
     opts = {
@@ -195,6 +217,9 @@ def main():
                             "license_metadata": clean(video.get("license"), 160),
                             "relevance_score": score,
                             "matched_title_terms": matched,
+                            "attention_signals": attention_signals(video.get("title")),
+                            "attention_score": score_candidate(score, attention_signals(video.get("title")), video.get("view_count")),
+                            "ranking_note": "Heuristic based on title keywords and public view count only; it does not assess the actual visuals or audience retention.",
                             "relevance_note": "Title-based estimate only; open and inspect the actual footage.",
                             "permission_status": "not_verified",
                             "approved_for_use": False,
@@ -211,7 +236,7 @@ def main():
 
             ranked = sorted(
                 candidates_by_url.values(),
-                key=lambda item: (item["relevance_score"], item.get("view_count_at_search") or 0),
+                key=lambda item: (item["attention_score"], item["relevance_score"], item.get("view_count_at_search") or 0),
                 reverse=True,
             )
             entry["candidates"] = ranked[:args.results_per_scene]
