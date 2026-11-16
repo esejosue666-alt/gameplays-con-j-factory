@@ -155,7 +155,7 @@ def main():
     report = {
         "created_at": datetime.now(timezone.utc).isoformat(),
         "episode": str(data.get("title", episode_path.name)),
-        "notice": "Candidates only. No video was downloaded. Title relevance is heuristic and does not verify footage. YouTube attribution does not grant reuse permission. Obtain and retain permission or verify a compatible license before use.",
+        "notice": "Candidates only. No video was downloaded. Title-based relevance and attention ranking are heuristics and do not verify footage. YouTube attribution does not grant reuse permission. Obtain and retain permission or verify a compatible license before use.",
         "ranking_method": "Heuristic: 70% scene-title relevance, 20% attention-hook words, 10% log-scaled view count. Metadata only; it does not inspect footage, measure real retention, or verify reuse rights.",
         "scenes": [],
     }
@@ -226,7 +226,7 @@ def main():
                             "review_note": "Contact the recording's rights holder or independently verify a compatible license. Credit alone is insufficient.",
                         }
                         previous = candidates_by_url.get(url)
-                        if previous is None or candidate["relevance_score"] > previous["relevance_score"]:
+                        if previous is None or candidate["attention_score"] > previous["attention_score"]:
                             candidates_by_url[url] = candidate
                 except Exception as exc:
                     message = clean(f"{type(exc).__name__}: {exc}", 500)
