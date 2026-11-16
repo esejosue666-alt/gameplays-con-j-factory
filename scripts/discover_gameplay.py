@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Discover scene-specific gameplay candidates without downloading videos.
 
-Search results are unverified candidates. Relevance ranking is a title-based
-heuristic only; it does not verify video contents or reuse permissions.
+Search results are unverified candidates. Ranking uses title and public metadata
+heuristics only; it does not inspect footage, measure retention, or verify reuse permissions.
 """
 import argparse
 import json
