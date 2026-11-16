@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Discover relevant third-party gameplay videos without downloading them.
+"""Discover scene-specific gameplay candidates without downloading videos.
 
-Every result is an unverified candidate. Public availability, search ranking, and
-credit do not establish permission to reuse a creator's recording.
+Search results are unverified candidates. Relevance ranking is a title-based
+heuristic only; it does not verify video contents or reuse permissions.
 """
 import argparse
 import json
@@ -17,59 +17,111 @@ from yt_dlp import YoutubeDL
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "output" / "gameplay_candidates.json"
 
-TAG_LABELS = {
-    "corpo_plaza": "Corpo Plaza statue location",
-    "statue": "FF06B5 statue",
-    "ff06b5": "FF06B5 mystery",
-    "night_city": "Night City exploration",
-    "monks": "monks statue",
-    "hex_color": "magenta hexadecimal code",
-    "the_witcher_3": "The Witcher 3 FF06B5 easter egg",
-    "ouroboros": "ouroboros symbol laptop",
-    "magenta_symbol": "magenta symbol",
-    "secret_area": "secret area",
-    "church": "Biotechnica church",
-    "biotechnica": "Biotechnica protein farm church",
-    "servers": "church servers",
-    "arcade": "Arasaka Tower 3D arcade",
-    "arasaka_tower_3d": "Arasaka Tower 3D gameplay",
-    "secret_rooms": "Arasaka Tower 3D secret rooms",
-    "johnny_silverhand": "Johnny Silverhand arcade gameplay",
-    "maze": "Arasaka Tower 3D floor minus 10 maze",
-    "qr_code": "FF06B5 QR code",
-    "secret_level": "Arasaka Tower 3D secret level",
-    "dump": "Cyberpunk 2077 landfill laptop",
-    "badlands": "Cyberpunk 2077 Badlands gameplay",
-    "laptop": "FF06B5 laptop",
-    "church_servers": "Biotechnica church server keypad",
-    "mattress": "FF06B5 mattress secret cutscene",
-    "polyhistor": "Polyhistor FF06B5 cutscene",
-    "monster_truck": "Mackinaw Demiurge monster truck",
-    "cube": "FF06B5 golden cube cutscene",
-    "exploration": "Cyberpunk 2077 free roam exploration",
+# Each scene gets independent searches. Keep game names in the query only when
+# the footage should come from that game (scene 3 is specifically The Witcher 3).
+SCENE_SEARCHES = {
+    1: [
+        "Cyberpunk 2077 Corpo Plaza FF06B5 statue location gameplay",
+        "Cyberpunk 2077 magenta statue Corpo Plaza close up gameplay",
+        "Cyberpunk 2077 FF06B5 statue Night City exploration",
+    ],
+    2: [
+        "Cyberpunk 2077 FF06B5 statue monks meditation gameplay",
+        "Cyberpunk 2077 Corpo Plaza monk statue FF06B5 gameplay",
+        "Cyberpunk 2077 FF06B5 statue details close up",
+    ],
+    3: [
+        "The Witcher 3 next gen FF06B5 secret area ouroboros gameplay",
+        "The Witcher 3 FF06B5 easter egg secret cave gameplay",
+        "The Witcher 3 magenta ouroboros symbol secret location",
+    ],
+    4: [
+        "Cyberpunk 2077 Biotechnica protein farm church interior gameplay",
+        "Cyberpunk 2077 FF06B5 church servers computer terminal gameplay",
+        "Cyberpunk 2077 church server room laptop Biotechnica gameplay",
+    ],
+    5: [
+        "Cyberpunk 2077 Arasaka Tower 3D arcade full gameplay secret rooms",
+        "Cyberpunk 2077 Arasaka Tower 3D hidden wall secret room gameplay",
+        "Cyberpunk 2077 Johnny Silverhand arcade Arasaka Tower 3D gameplay",
+    ],
+    6: [
+        "Cyberpunk 2077 Arasaka Tower 3D secret level floor minus 10 maze gameplay",
+        "Cyberpunk 2077 Arasaka Tower 3D hidden maze QR code gameplay",
+        "Cyberpunk 2077 FF06B5 arcade maze level 10 walkthrough",
+    ],
+    7: [
+        "Cyberpunk 2077 landfill dump laptop FF06B5 location gameplay",
+        "Cyberpunk 2077 Badlands junkyard laptop ouroboros gameplay",
+        "Cyberpunk 2077 Biotechnica church server codes terminal gameplay",
+    ],
+    8: [
+        "Cyberpunk 2077 Badlands mattress FF06B5 secret event gameplay",
+        "Cyberpunk 2077 Polyhistor mattress wait secret cutscene gameplay",
+        "Cyberpunk 2077 Mackinaw Demiurge monster truck Badlands gameplay",
+    ],
+    9: [
+        "Cyberpunk 2077 Polyhistor FF06B5 cutscene golden cube gameplay",
+        "Cyberpunk 2077 FF06B5 Polyhistor laptop cube scene",
+        "Cyberpunk 2077 Badlands Polyhistor secret event aftermath gameplay",
+    ],
+    10: [
+        "Cyberpunk 2077 Night City Corpo Plaza FF06B5 statue exploration gameplay",
+        "Cyberpunk 2077 Badlands free roam landscape driving gameplay",
+        "Cyberpunk 2077 FF06B5 mystery statue final scene gameplay",
+    ],
+}
+
+SCENE_TERMS = {
+    1: ["corpo plaza", "statue", "ff06b5", "magenta"],
+    2: ["statue", "monk", "monks", "ff06b5", "corpo plaza"],
+    3: ["witcher", "witcher 3", "ouroboros", "ff06b5", "secret"],
+    4: ["biotechnica", "church", "server", "laptop", "terminal"],
+    5: ["arasaka tower 3d", "arasaka", "arcade", "secret", "johnny"],
+    6: ["arasaka tower 3d", "maze", "labyrinth", "qr", "secret level"],
+    7: ["landfill", "dump", "laptop", "badlands", "server", "ouroboros"],
+    8: ["badlands", "mattress", "polyhistor", "demiurge", "monster truck"],
+    9: ["polyhistor", "cube", "ff06b5", "cutscene", "badlands"],
+    10: ["night city", "statue", "badlands", "exploration", "ff06b5"],
+}
+
+STOP_WORDS = {
+    "cyberpunk", "2077", "gameplay", "the", "and", "with", "how", "to",
+    "in", "of", "a", "an", "for", "secret", "location", "full",
 }
 
 def clean(value, limit=500):
     value = re.sub(r"\s+", " ", str(value or "")).strip()
     return value[:limit]
 
-def build_query(episode_title, scene):
-    tags = [TAG_LABELS.get(str(t).lower(), str(t).replace("_", " ")) for t in scene.get("visual_tags", [])]
-    # Prioritize the scene heading and the most distinctive tags; avoid query overload.
-    distinct = []
-    for term in [scene.get("heading", "")] + tags[:3]:
-        term = clean(term, 90)
-        if term and term.lower() not in [x.lower() for x in distinct]:
-            distinct.append(term)
-    return clean("Cyberpunk 2077 " + " ".join(distinct) + " gameplay", 240)
+def build_queries(scene, scene_number):
+    planned = SCENE_SEARCHES.get(scene_number, [])
+    if planned:
+        return planned
+    tags = [str(t).replace("_", " ") for t in scene.get("visual_tags", [])]
+    return [clean("Cyberpunk 2077 " + " ".join(tags[:3]) + " gameplay", 220)]
+
+def relevance(title, scene_number):
+    """Small explainable title-only score; never treats a match as verification."""
+    title_l = clean(title, 300).lower()
+    terms = SCENE_TERMS.get(scene_number, [])
+    matched = [term for term in terms if term in title_l]
+    score = len(matched)
+    # Reward distinctive multiword phrases more than generic single words.
+    score += sum(1 for term in matched if " " in term)
+    return score, matched
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("episode_path")
     parser.add_argument("--results-per-scene", type=int, default=4)
+    parser.add_argument("--queries-per-scene", type=int, default=3)
     args = parser.parse_args()
     if not 1 <= args.results_per_scene <= 10:
         raise SystemExit("--results-per-scene must be between 1 and 10")
+    if not 1 <= args.queries_per_scene <= 5:
+        raise SystemExit("--queries-per-scene must be between 1 and 5")
+
     episode_path = Path(args.episode_path)
     if not episode_path.is_absolute():
         episode_path = ROOT / episode_path
@@ -81,7 +133,8 @@ def main():
     report = {
         "created_at": datetime.now(timezone.utc).isoformat(),
         "episode": str(data.get("title", episode_path.name)),
-        "notice": "Candidates only. No video was downloaded. YouTube attribution does not grant reuse permission. Obtain and retain permission or verify a compatible license before use.",
+        "notice": "Candidates only. No video was downloaded. Title relevance is heuristic and does not verify footage. YouTube attribution does not grant reuse permission. Obtain and retain permission or verify a compatible license before use.",
+        "ranking_method": "Title-only keyword heuristic; manually inspect every candidate.",
         "scenes": [],
     }
     opts = {
@@ -94,25 +147,23 @@ def main():
         "extractor_retries": 3,
         "playlistend": args.results_per_scene,
     }
+
     with YoutubeDL(opts) as ydl:
         for index, scene in enumerate(scenes, 1):
-            query = build_query(data.get("title", ""), scene)
-            # Retry with a shorter query if the detailed scene query returns no entries.
-            tags = [TAG_LABELS.get(str(t).lower(), str(t).replace("_", " ")) for t in scene.get("visual_tags", [])]
-            short_query = clean("Cyberpunk 2077 " + " ".join(tags[:2]) + " gameplay", 160)
-            queries = [query]
-            if short_query.lower() != query.lower():
-                queries.append(short_query)
+            queries = build_queries(scene, index)[:args.queries_per_scene]
             entry = {
                 "scene_number": index,
                 "scene_heading": clean(scene.get("heading", f"Scene {index}"), 180),
                 "visual_tags": scene.get("visual_tags", []),
-                "search_query": query,
+                "search_query": queries[0] if queries else "",
                 "search_attempts": [],
                 "candidates": [],
                 "search_error": None,
                 "empty_reason": None,
             }
+            candidates_by_url = {}
+            errors = []
+
             for attempt_query in queries:
                 entry["search_attempts"].append(attempt_query)
                 try:
@@ -125,12 +176,15 @@ def main():
                         if not video:
                             continue
                         video_id = clean(video.get("id", ""), 80)
-                        url = clean(video.get("webpage_url") or (f"https://www.youtube.com/watch?v={video_id}" if video_id else ""), 500)
+                        url = clean(
+                            video.get("webpage_url") or
+                            (f"https://www.youtube.com/watch?v={video_id}" if video_id else ""),
+                            500,
+                        )
                         if not url:
                             continue
-                        if any(item["source_url"] == url for item in entry["candidates"]):
-                            continue
-                        entry["candidates"].append({
+                        score, matched = relevance(video.get("title"), index)
+                        candidate = {
                             "title": clean(video.get("title"), 240),
                             "creator_name": clean(video.get("uploader") or video.get("channel"), 180),
                             "creator_channel_url": clean(video.get("uploader_url") or video.get("channel_url"), 500),
@@ -139,29 +193,45 @@ def main():
                             "view_count_at_search": video.get("view_count"),
                             "upload_date": clean(video.get("upload_date"), 16),
                             "license_metadata": clean(video.get("license"), 160),
+                            "relevance_score": score,
+                            "matched_title_terms": matched,
+                            "relevance_note": "Title-based estimate only; open and inspect the actual footage.",
                             "permission_status": "not_verified",
                             "approved_for_use": False,
                             "review_note": "Contact the recording's rights holder or independently verify a compatible license. Credit alone is insufficient.",
-                        })
-                    if entry["candidates"]:
-                        break
-                    entry["empty_reason"] = "YouTube search returned no entries for this query."
+                        }
+                        previous = candidates_by_url.get(url)
+                        if previous is None or candidate["relevance_score"] > previous["relevance_score"]:
+                            candidates_by_url[url] = candidate
                 except Exception as exc:
-                    entry["search_error"] = clean(f"{type(exc).__name__}: {exc}", 500)
-                    print(f"Search failed for scene {index}: {entry['search_error']}")
-                    # Try the shorter fallback query after an extractor/search failure.
-                    continue
-            if entry["candidates"]:
-                entry["empty_reason"] = None
+                    message = clean(f"{type(exc).__name__}: {exc}", 500)
+                    errors.append(message)
+                    print(f"Search failed for scene {index}: {message}")
+                time.sleep(0.5)
+
+            ranked = sorted(
+                candidates_by_url.values(),
+                key=lambda item: (item["relevance_score"], item.get("view_count_at_search") or 0),
+                reverse=True,
+            )
+            entry["candidates"] = ranked[:args.results_per_scene]
+            if not entry["candidates"]:
+                entry["empty_reason"] = "All scene-specific YouTube searches returned no candidates."
+                if errors:
+                    entry["search_error"] = " | ".join(errors[:3])
+            elif errors:
+                entry["search_error"] = "Some query attempts failed: " + " | ".join(errors[:2])
+
             report["scenes"].append(entry)
-            print(f"Scene {index}/{len(scenes)}: {len(entry['candidates'])} candidate(s)")
-            time.sleep(1)
+            print(f"Scene {index}/{len(scenes)}: {len(entry['candidates'])} candidate(s) from {len(entry['search_attempts'])} targeted search(es)")
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     total = sum(len(s["candidates"]) for s in report["scenes"])
+    empty = [str(s["scene_number"]) for s in report["scenes"] if not s["candidates"]]
     print(f"Candidate report: {OUTPUT}")
-    print(f"Total candidates: {total}. None are approved or downloaded.")
+    print(f"Total candidates: {total}. Empty scenes: {', '.join(empty) if empty else 'none'}.")
+    print("None are approved or downloaded.")
     return 0
 
 if __name__ == "__main__":
