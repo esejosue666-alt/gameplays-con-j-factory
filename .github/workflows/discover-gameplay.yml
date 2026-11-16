@@ -8,9 +8,9 @@ on:
         required: true
         default: "episodes/ep001_ff06b5.json"
       results_per_scene:
-        description: "YouTube candidates per scene (1–10)"
+        description: "YouTube candidates per scene (1–10), ranked by relevance and attention signals"
         required: true
-        default: "4"
+        default: "6"
       queries_per_scene:
         description: "Targeted searches per scene (1–5)"
         required: true
