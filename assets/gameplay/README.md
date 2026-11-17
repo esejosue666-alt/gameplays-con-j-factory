@@ -44,3 +44,24 @@ Para licencia, sustituye `permission_evidence` por `license_url` y registra las 
 - La música y los efectos de sonido tienen derechos separados: verifica su licencia por separado. En Cyberpunk 2077, activa la opción de desactivar música con derechos de autor al grabar.
 
 La búsqueda de fuentes no equivale a autorización: cada clip debe pasar revisión antes de incorporarse al catálogo.
+
+
+## Fondo de combate como respaldo para una escena sin toma exacta
+
+En las escenas que incluyan `fallback_background_tags`, el renderizador intenta primero encontrar un video exacto de la escena. Si no existe, busca un video aprobado cuyos tags incluyan **todos** los tags configurados. En el episodio FF:06:B5, el respaldo requiere `cyberpunk_2077` y `combat`; así no se usa combate de otro juego por accidente.
+
+Ejemplo de fondo de combate grabado por ti:
+
+```json
+{
+  "path": "assets/gameplay/cyberpunk/combat-own-recording.mp4",
+  "tags": ["cyberpunk_2077", "combat", "firefight"],
+  "approved_for_use": true,
+  "rights_basis": "own_recording",
+  "source_note": "Grabación propia de Cyberpunk 2077; sin música con derechos de autor"
+}
+```
+
+También se pueden añadir capturas autorizadas con tags como `church`, `biotechnica`, `servers`, `terminal` o `laptop`. La fábrica las muestra en paneles por turnos sobre el gameplay en movimiento. Cuando no hay capturas aprobadas, genera paneles ilustrativos con el rótulo **RECREACIÓN VISUAL · NO ES CAPTURA DEL JUEGO**. Esos paneles no se presentan como imágenes reales del juego.
+
+**Importante:** el código no descarga ni reutiliza automáticamente los candidatos públicos de YouTube. El fondo de combate debe estar guardado localmente y marcado como grabación propia, permiso escrito o licencia compatible en `catalog.json`.
