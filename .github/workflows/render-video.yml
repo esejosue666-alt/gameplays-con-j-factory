@@ -19,6 +19,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Validate renderer and episode JSON
+        run: |
+          python -m py_compile scripts/render_video.py
+          python -m json.tool episodes/ep001_ff06b5.json > /dev/null
       - name: Install FFmpeg
         run: |
           sudo apt-get update
