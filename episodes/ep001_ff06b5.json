@@ -81,7 +81,8 @@
           "subtitle": "Los mensajes de Polyhistor y Tyromancer conectaban la iglesia con el resto del acertijo.",
           "kind": "laptop"
         }
-      ]
+      ],
+      "fallback_allow_background_reuse": true
     },
     {
       "heading": "Arasaka Tower 3D: paredes que esconden secretos",
@@ -141,7 +142,8 @@
           "subtitle": "La información descifrada señaló el siguiente lugar de la búsqueda.",
           "kind": "diagram"
         }
-      ]
+      ],
+      "fallback_allow_background_reuse": true
     },
     {
       "heading": "La espera en las Badlands",
