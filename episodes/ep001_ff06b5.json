@@ -52,6 +52,35 @@
         "servers",
         "arcade",
         "arasaka_tower_3d"
+      ],
+      "fallback_background_tags": [
+        "cyberpunk_2077",
+        "combat"
+      ],
+      "fallback_image_tags": [
+        "church",
+        "biotechnica",
+        "servers",
+        "terminal",
+        "laptop",
+        "church_servers"
+      ],
+      "fallback_panels": [
+        {
+          "title": "La iglesia de Biotechnica",
+          "subtitle": "El interior del edificio es el punto donde la investigación cambia de rumbo.",
+          "kind": "church"
+        },
+        {
+          "title": "Los servidores y terminales",
+          "subtitle": "Aquí se introducían los códigos y aparecían nuevas pistas del misterio.",
+          "kind": "servers"
+        },
+        {
+          "title": "Los archivos de los investigadores",
+          "subtitle": "Los mensajes de Polyhistor y Tyromancer conectaban la iglesia con el resto del acertijo.",
+          "kind": "laptop"
+        }
       ]
     },
     {
@@ -83,6 +112,35 @@
         "laptop",
         "church_servers",
         "ouroboros"
+      ],
+      "fallback_background_tags": [
+        "cyberpunk_2077",
+        "combat"
+      ],
+      "fallback_image_tags": [
+        "church",
+        "biotechnica",
+        "servers",
+        "terminal",
+        "laptop",
+        "church_servers"
+      ],
+      "fallback_panels": [
+        {
+          "title": "El portátil del vertedero",
+          "subtitle": "Un segundo dispositivo aportó símbolos y números necesarios para continuar.",
+          "kind": "laptop"
+        },
+        {
+          "title": "De vuelta a los servidores",
+          "subtitle": "Los códigos reunidos se relacionaban con los terminales de la iglesia.",
+          "kind": "servers"
+        },
+        {
+          "title": "Las coordenadas de las Badlands",
+          "subtitle": "La información descifrada señaló el siguiente lugar de la búsqueda.",
+          "kind": "diagram"
+        }
       ]
     },
     {
