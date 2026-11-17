@@ -125,7 +125,7 @@ def select_fallback_video(scene, used_assets):
         if not path.is_file() or path.suffix.lower() not in VIDEO_EXTS:
             continue
         key = path.resolve().as_posix()
-        if key in used_assets:
+        if key in used_assets and not scene.get("fallback_allow_background_reuse", False):
             continue
         tags = {str(tag).strip().lower() for tag in item.get("tags", [])}
         # Require every configured tag, e.g. both cyberpunk_2077 and combat.
