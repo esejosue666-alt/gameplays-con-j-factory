@@ -48,7 +48,7 @@ La búsqueda de fuentes no equivale a autorización: cada clip debe pasar revisi
 
 ## Fondo de combate como respaldo para una escena sin toma exacta
 
-En las escenas que incluyan `fallback_background_tags`, el renderizador intenta primero encontrar un video exacto de la escena. Si no existe, busca un video aprobado cuyos tags incluyan **todos** los tags configurados. En el episodio FF:06:B5, el respaldo requiere `cyberpunk_2077` y `combat`; así no se usa combate de otro juego por accidente.
+En las escenas que incluyan `fallback_background_tags`, el renderizador intenta primero encontrar un video exacto de la escena. Si no existe, busca un video aprobado cuyos tags incluyan **todos** los tags configurados. En el episodio FF:06:B5, el respaldo requiere `cyberpunk_2077` y `combat`; así no se usa combate de otro juego por accidente. Las escenas 4 y 7 pueden reutilizar ese mismo fondo si solo hay una grabación aprobada.
 
 Ejemplo de fondo de combate grabado por ti:
 
