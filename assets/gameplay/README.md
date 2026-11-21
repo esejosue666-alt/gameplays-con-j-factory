@@ -65,3 +65,17 @@ Ejemplo de fondo de combate grabado por ti:
 También se pueden añadir capturas autorizadas con tags como `church`, `biotechnica`, `servers`, `terminal` o `laptop`. La fábrica las muestra en paneles por turnos sobre el gameplay en movimiento. Cuando no hay capturas aprobadas, genera paneles ilustrativos con el rótulo **RECREACIÓN VISUAL · NO ES CAPTURA DEL JUEGO**. Esos paneles no se presentan como imágenes reales del juego.
 
 **Importante:** el código no descarga ni reutiliza automáticamente los candidatos públicos de YouTube. El fondo de combate debe estar guardado localmente y marcado como grabación propia, permiso escrito o licencia compatible en `catalog.json`.
+
+
+## Incorporar la colección propia de Cyberpunk 2077 (Android/Termux)
+
+El catálogo ya registra cinco grabaciones propias y el archivo .gitattributes configura Git LFS para MP4. Los archivos binarios todavía deben subirse: GitHub no permite guardarlos mediante el editor de texto ni esta conexión de archivos.
+
+Extrae el ZIP de la colección y coloca los videos en estas rutas exactas:
+- cyberpunk_coleccion/originales/short_01_oda.mp4 → assets/gameplay/cyberpunk/short_01_oda.mp4
+- cyberpunk_coleccion/originales/short_02_cyberpsicopatas.mp4 → assets/gameplay/cyberpunk/short_02_cyberpsychos.mp4
+- cyberpunk_coleccion/originales/short_03_samurai.mp4 → assets/gameplay/cyberpunk/short_03_samurai.mp4
+- cyberpunk_coleccion/originales/short_04_cedric_muller.mp4 → assets/gameplay/cyberpunk/short_04_cedric_muller.mp4
+- cyberpunk_coleccion/short_05_russell_greene_1080p.mp4 → assets/gameplay/cyberpunk/short_05_russell_greene_1080p.mp4
+
+Después, desde la raíz del repositorio, usa Git LFS para añadir y subir los archivos. No subas los MP4 como blobs Git normales. Una vez que los cinco existan en esas rutas, el renderizador podrá seleccionarlos; hasta entonces los omitirá porque los archivos no están presentes.
