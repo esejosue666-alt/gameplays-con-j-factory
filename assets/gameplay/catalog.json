@@ -1,5 +1,70 @@
 {
   "version": 2,
-  "policy": "Se admite gameplay de terceros solo con permiso expreso documentado o licencia verificable compatible con edición y uso comercial. Dar crédito o enlazar el canal no sustituye el permiso. La fábrica añade automáticamente atribuciones de los assets aprobados a la descripción de YouTube.",
-  "assets": []
+  "policy": "Solo se admite gameplay propio o de terceros con permiso/licencia documentados. Música y efectos se revisan por separado.",
+  "assets": [
+    {
+      "path": "assets/gameplay/cyberpunk/short_01_oda.mp4",
+      "tags": [
+        "cyberpunk_2077",
+        "combat",
+        "boss_fight",
+        "oda",
+        "melee"
+      ],
+      "approved_for_use": true,
+      "rights_basis": "own_recording",
+      "source_note": "Grabación propia del usuario; audio original eliminado al preparar el clip."
+    },
+    {
+      "path": "assets/gameplay/cyberpunk/short_02_cyberpsychos.mp4",
+      "tags": [
+        "cyberpunk_2077",
+        "combat",
+        "firefight",
+        "cyberpsycho"
+      ],
+      "approved_for_use": true,
+      "rights_basis": "own_recording",
+      "source_note": "Grabación propia del usuario; audio original del archivo."
+    },
+    {
+      "path": "assets/gameplay/cyberpunk/short_03_samurai.mp4",
+      "tags": [
+        "cyberpunk_2077",
+        "combat",
+        "boss_fight",
+        "cyberpsycho",
+        "samurai"
+      ],
+      "approved_for_use": true,
+      "rights_basis": "own_recording",
+      "source_note": "Grabación propia del usuario; audio original del archivo."
+    },
+    {
+      "path": "assets/gameplay/cyberpunk/short_04_cedric_muller.mp4",
+      "tags": [
+        "cyberpunk_2077",
+        "combat",
+        "firefight",
+        "cyberpsycho",
+        "interior"
+      ],
+      "approved_for_use": true,
+      "rights_basis": "own_recording",
+      "source_note": "Grabación propia del usuario; audio original del archivo."
+    },
+    {
+      "path": "assets/gameplay/cyberpunk/short_05_russell_greene_1080p.mp4",
+      "tags": [
+        "cyberpunk_2077",
+        "combat",
+        "melee",
+        "firefight",
+        "cyberpsycho"
+      ],
+      "approved_for_use": true,
+      "rights_basis": "own_recording",
+      "source_note": "Grabación propia del usuario; adaptado a 1920x1080, audio original eliminado."
+    }
+  ]
 }
