@@ -1,0 +1,5 @@
+# Store gameplay MP4 assets with Git LFS to avoid oversized Git objects
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.mkv filter=lfs diff=lfs merge=lfs -text
+*.webm filter=lfs diff=lfs merge=lfs -text
