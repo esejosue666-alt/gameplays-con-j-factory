@@ -393,12 +393,15 @@ def render_scene(scene, index, total, work, used_assets, used_asset_items):
                         "arcade" if "arcade" in tags or "arasaka_tower_3d" in tags else
                         "maze" if "maze" in tags else
                         "badlands" if "badlands" in tags else
+                        "witcher" if "ouroboros" in tags or "the_witcher_3" in tags else
+                        "cube" if "cube" in tags or "polyhistor" in tags else
                         "laptop" if "laptop" in tags or "dump" in tags else
                         "city")
+                heading = scene.get("heading", "Pista del misterio")
                 fallback_specs = [
-                    {"title": scene.get("heading", "Pista del misterio"),
-                     "subtitle": "Recreación visual de la ubicación o pista descrita en esta parte.",
-                     "kind": kind}
+                    {"title": heading, "subtitle": "Recreación visual de la ubicación relacionada con esta parte.", "kind": kind},
+                    {"title": heading, "subtitle": "Detalle ilustrado para acompañar la explicación; no es captura real del juego.", "kind": kind},
+                    {"title": heading, "subtitle": "Representación gráfica de la pista que se está investigando.", "kind": kind}
                 ]
             panel_number = len(panels)
             while len(panels) < 3 and panel_number < len(fallback_specs):
