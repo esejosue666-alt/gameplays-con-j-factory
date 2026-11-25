@@ -21,7 +21,8 @@
         "statue",
         "ff06b5",
         "night_city"
-      ]
+      ],
+      "visual": "assets/images/ff06b5/scene_01.png"
     },
     {
       "heading": "La estatua y las primeras pistas",
@@ -31,7 +32,8 @@
         "monks",
         "corpo_plaza",
         "hex_color"
-      ]
+      ],
+      "visual": "assets/images/ff06b5/scene_02.png"
     },
     {
       "heading": "El misterio cruza a The Witcher 3",
@@ -41,7 +43,8 @@
         "ouroboros",
         "magenta_symbol",
         "secret_area"
-      ]
+      ],
+      "visual": "assets/images/ff06b5/scene_03.png"
     },
     {
       "heading": "La actualización 2.0 abre otra puerta",
@@ -82,7 +85,8 @@
           "kind": "laptop"
         }
       ],
-      "fallback_allow_background_reuse": true
+      "fallback_allow_background_reuse": true,
+      "visual": "assets/images/ff06b5/scene_04.png"
     },
     {
       "heading": "Arasaka Tower 3D: paredes que esconden secretos",
@@ -92,7 +96,8 @@
         "arcade",
         "secret_rooms",
         "johnny_silverhand"
-      ]
+      ],
+      "visual": "assets/images/ff06b5/scene_05.png"
     },
     {
       "heading": "El laberinto bajo la torre",
@@ -102,7 +107,8 @@
         "arasaka_tower_3d",
         "qr_code",
         "secret_level"
-      ]
+      ],
+      "visual": "assets/images/ff06b5/scene_06.png"
     },
     {
       "heading": "Los servidores y el portátil del vertedero",
@@ -143,7 +149,8 @@
           "kind": "diagram"
         }
       ],
-      "fallback_allow_background_reuse": true
+      "fallback_allow_background_reuse": true,
+      "visual": "assets/images/ff06b5/scene_07.png"
     },
     {
       "heading": "La espera en las Badlands",
@@ -153,7 +160,8 @@
         "mattress",
         "polyhistor",
         "monster_truck"
-      ]
+      ],
+      "visual": "assets/images/ff06b5/scene_08.png"
     },
     {
       "heading": "¿Qué le pasó a Polyhistor?",
@@ -163,7 +171,8 @@
         "cube",
         "badlands",
         "laptop"
-      ]
+      ],
+      "visual": "assets/images/ff06b5/scene_09.png"
     },
     {
       "heading": "Un misterio resuelto… pero no explicado del todo",
@@ -173,7 +182,8 @@
         "statue",
         "badlands",
         "exploration"
-      ]
+      ],
+      "visual": "assets/images/ff06b5/scene_10.png"
     }
   ]
 }
