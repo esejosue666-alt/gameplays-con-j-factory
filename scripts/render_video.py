@@ -358,6 +358,26 @@ def render_scene(scene, index, total, work, used_assets, used_asset_items):
     duration = probe_duration(audio)
     make_srt(narration, duration, srt)
 
+    # Scene-specific original illustrations take priority over generic combat fallback.
+    illustration = scene.get("visual")
+    illustration_path = (ROOT / illustration) if illustration else None
+    if illustration_path and illustration_path.is_file() and illustration_path.suffix.lower() in IMAGE_EXTS:
+        subtitles = escape_filter_path(srt)
+        style = "FontName=DejaVu Sans,FontSize=21,Bold=1,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=1,Alignment=2,MarginV=58"
+        vf = (
+            "zoompan=z='min(zoom+0.00035,1.08)':"
+            "x='iw/2-(iw/zoom/2)+sin(on/90)*18':"
+            "y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30,"
+            f"subtitles='{subtitles}':force_style='{style}'"
+        )
+        run(["ffmpeg","-y","-loop","1","-framerate","30","-i",str(illustration_path),
+             "-i",str(audio),"-vf",vf,"-map","0:v:0","-map","1:a:0",
+             "-t",f"{duration:.3f}","-r","30","-c:v","libx264","-preset","veryfast",
+             "-pix_fmt","yuv420p","-c:a","aac","-b:a","192k","-shortest",
+             "-movflags","+faststart",str(clip)])
+        print(f"Escena {index+1}: ilustración original específica + movimiento de cámara.")
+        return clip
+
     selected = select_visual(scene, used_assets)
     visual_path, visual_key, asset_item = selected if selected else (None, None, None)
     valid_visual = bool(visual_path and visual_path.is_file())
