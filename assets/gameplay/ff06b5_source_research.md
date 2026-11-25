@@ -72,3 +72,42 @@ Otra fuente del mismo canal:
 - Mantener música y efectos de sonido revisados por separado.
 - No marcar como `approved_for_use` recursos sin archivo local, atribución y base de derechos documentada.
 - No publicar el episodio sin revisión explícita del usuario.
+
+
+## Nuevos hallazgos de búsqueda — 25/11/2026
+
+Estos resultados mejoran la localización de planos, pero siguen siendo **referencias solamente**: las grabaciones de los creadores no se pueden reutilizar hasta obtener permiso o comprobar una licencia aplicable.
+
+### Arasaka Tower 3D — laberinto, pisos y salas
+- edepot: https://www.youtube.com/watch?v=QW_tJn3_2fM
+- Título: "Cyberpunk 2077: Secret Maze & Solution in Arasaka Tower 3D Arcade Game".
+- Publicado: 2023-09-25.
+- Tiempos descritos: 00:32 inicio del arcade; 1:10 piso 86; 2:06 piso 52; 3:21 sala 940204; 4:00 sala 941229; 6:13 paredes con números; 6:55 piso -10; 9:27 salida del laberinto.
+- Cobertura: escenas 5 y 6; útil también para escena 4 por ubicación del arcade.
+- Derechos: no se encontró licencia abierta ni permiso de reutilización en los metadatos consultados. No usar hasta autorización.
+
+### Arasaka Tower 3D — otro recorrido del nivel secreto
+- Hamster: https://www.youtube.com/watch?v=OSSjr5mM8KM
+- Título: "Storming Arasaka Tower 3D with Sandevistan | Cyberpunk 2077 Secret Level".
+- Publicado: 2026-07-20.
+- Tiempos descritos: 06:21 Protein Farm; 06:55 iglesia/portátil; 07:13 mensaje de Polyhistor; 07:36 entrada al arcade; 12:20 piso 86; 14:52 piso 52; 19:00 búsqueda de sala secreta; 20:12 sala secreta.
+- Cobertura: escenas 4, 5 y 6.
+- Derechos: no se encontró licencia abierta ni permiso de reutilización. No usar hasta autorización.
+
+### Badlands y vehículo Demiurge
+- Referencia de adquisición y contexto: https://cyberpunk.fandom.com/wiki/Thorton_Mackinaw_%22Demiurge%22
+- Referencia adicional: https://wiki.eso-ui.com/index.php/Cyberpunk2077%3AThorton_Mackinaw_%22Demiurge%22
+- Cobertura: escena 8; ambas páginas ayudan a confirmar la secuencia colchón → espera → aparición de Polyhistor → vehículo.
+- Derechos: páginas de referencia; no se ha validado una licencia de las capturas individuales. No extraer imágenes sin revisar autor/licencia.
+
+### Política oficial: precisión importante
+- CDPR permite videos relacionados con sus juegos y monetización mediante programas de socios como YouTube, pero el contenido no debe estar detrás de un muro de pago y no se puede vender/licenciar a terceros. También exige respetar derechos de terceros y revisar música por separado.
+- Política: https://www.cdprojektred.com/es/videopolicy
+- Directrices: https://www.cdprojektred.com/es-mx/fan-content
+- Por tanto, la política del juego no otorga permiso para copiar la grabación de otro canal. La licencia/permiso de la grabación concreta sigue siendo un requisito independiente.
+
+## Próxima prioridad
+1. Obtener permiso escrito de edepot y Hamster para fragmentos breves de las escenas 5–6 y 4–6, con crédito y enlace.
+2. Localizar una grabación con permiso para escenas 1–2 (estatua/monjes) y 7–9 (vertedero, colchón, Polyhistor).
+3. Revisar el archivo CC BY de The Witcher 3 para confirmar que el fragmento realmente muestra la zona secreta relacionada con FF:06:B5; gameplay general no basta.
+4. Solo después de guardar el archivo local y evidencia de derechos, registrar los recursos como aprobados en catalog.json.
