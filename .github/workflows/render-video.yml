@@ -31,6 +31,8 @@ jobs:
           sudo apt-get install -y ffmpeg
       - name: Install renderer dependencies
         run: pip install "edge-tts>=7.0.0" "Pillow>=10.0.0"
+      - name: Create original FF06B5 illustrations
+        run: python scripts/create_ff06b5_illustrations.py
       - name: Render draft
         run: python scripts/render_video.py "${{ inputs.episode_path }}"
       - name: Save MP4 and metadata
