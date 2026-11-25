@@ -114,24 +114,25 @@ def read_catalog():
 
 def select_fallback_video(scene, used_assets):
     """Find an approved same-game combat recording for scenes without an exact shot."""
-    required = {str(tag).strip().lower() for tag in scene.get("fallback_background_tags", [])}
+    required = {str(tag).strip().lower() for tag in scene.get("fallback_background_tags", ["cyberpunk_2077", "combat"])}
     if not required:
-        return None, None, None
-    ranked = []
+        required = {"cyberpunk_2077", "combat"}
+    unused, all_valid = [], []
     for item in read_catalog():
         if not rights_are_documented(item):
             continue
         path = ROOT / str(item.get("path", ""))
         if not path.is_file() or path.suffix.lower() not in VIDEO_EXTS:
             continue
-        key = path.resolve().as_posix()
-        if key in used_assets and not scene.get("fallback_allow_background_reuse", False):
-            continue
         tags = {str(tag).strip().lower() for tag in item.get("tags", [])}
-        # Require every configured tag, e.g. both cyberpunk_2077 and combat.
         if not required.issubset(tags):
             continue
-        ranked.append((len(tags.intersection(required)), path, item))
+        entry = (len(tags.intersection(required)), path, item)
+        all_valid.append(entry)
+        if path.resolve().as_posix() not in used_assets:
+            unused.append(entry)
+    # Use every approved recording once before starting another cycle.
+    ranked = unused if unused else all_valid
     if not ranked:
         return None, None, None
     ranked.sort(key=lambda entry: entry[0], reverse=True)
@@ -206,6 +207,59 @@ def make_story_panel(panel_data, out):
             y = 345 + n * 42
             draw.line((515, y, 700 + (n % 3) * 70, y), fill=cyan if n % 2 == 0 else pale, width=7)
         draw.polygon([(350, 640), (1130, 640), (1055, 700), (425, 700)], outline=cyan, fill=(20, 55, 75, 245))
+    elif kind == "statue":
+        draw.ellipse((650, 220, 830, 400), outline=cyan, width=8)
+        draw.line((740, 400, 740, 650), fill=pale, width=18)
+        draw.line((740, 465, 570, 570), fill=cyan, width=14)
+        draw.line((740, 465, 910, 570), fill=cyan, width=14)
+        draw.line((740, 640, 620, 710), fill=pale, width=14)
+        draw.line((740, 640, 860, 710), fill=pale, width=14)
+        draw.rounded_rectangle((500, 680, 980, 735), radius=12, outline=cyan, width=4)
+        draw.text((570, 690), "FF:06:B5", font=font(30, True), fill=pale)
+    elif kind == "arcade":
+        draw.rounded_rectangle((520, 180, 960, 710), radius=28, outline=cyan, width=10, fill=(10, 25, 45, 245))
+        draw.rectangle((570, 235, 910, 500), outline=pale, width=5)
+        draw.text((620, 285), "ARASAKA", font=font(44, True), fill=cyan)
+        draw.text((620, 355), "TOWER 3D", font=font(44, True), fill=pale)
+        draw.ellipse((640, 570, 710, 640), outline=cyan, width=7)
+        draw.ellipse((780, 570, 850, 640), outline=pale, width=7)
+    elif kind == "maze":
+        for x in range(470, 1000, 130):
+            draw.line((x, 220, x, 700), fill=cyan, width=10)
+        for y in range(250, 700, 110):
+            draw.line((470, y, 990, y), fill=pale, width=8)
+        draw.line((500, 650, 620, 650, 620, 540, 750, 540, 750, 330, 920, 330), fill=(255, 205, 90, 255), width=13)
+    elif kind == "badlands":
+        draw.polygon([(250, 650), (450, 390), (600, 570), (790, 300), (1120, 650)], fill=(25, 55, 65, 240), outline=cyan)
+        draw.ellipse((930, 170, 1060, 300), outline=(255, 205, 90, 255), width=8)
+        draw.rounded_rectangle((600, 590, 850, 680), radius=15, outline=pale, width=6)
+    elif kind == "city":
+        for x, height in [(360,300),(500,420),(650,260),(800,500),(960,350)]:
+            draw.rectangle((x, 690-height, x+110, 690), outline=cyan, width=5, fill=(10,30,48,230))
+            for y in range(720-height, 680, 55):
+                draw.rectangle((x+20,y,x+40,y+22), fill=pale)
+                draw.rectangle((x+65,y,x+85,y+22), fill=cyan)
+    elif kind == "witcher":
+        draw.ellipse((630, 260, 850, 480), outline=cyan, width=12)
+        draw.arc((630, 260, 850, 480), 25, 320, fill=pale, width=16)
+        draw.text((540, 540), "OUROBOROS", font=font(42, True), fill=cyan)
+    elif kind == "cube":
+        draw.polygon([(740, 230),(930,340),(740,450),(550,340)], outline=cyan, fill=(15,45,65,235))
+        draw.polygon([(550,340),(740,450),(740,680),(550,570)], outline=pale, fill=(10,30,48,235))
+        draw.polygon([(740,450),(930,340),(930,570),(740,680)], outline=cyan, fill=(20,55,75,235))
+    elif kind == "laptop":
+        draw.rounded_rectangle((425, 260, 1055, 625), radius=22, outline=cyan, width=8, fill=(10, 30, 48, 230))
+        draw.rectangle((470, 305, 1010, 570), outline=pale, width=4)
+        for n in range(5):
+            y = 345 + n * 42
+            draw.line((515, y, 700 + (n % 3) * 70, y), fill=cyan if n % 2 == 0 else pale, width=7)
+        draw.polygon([(350, 640), (1130, 640), (1055, 700), (425, 700)], outline=cyan, fill=(20, 55, 75, 245))
+    elif kind == "church":
+        draw.polygon([(505, 610), (740, 270), (975, 610)], outline=cyan, fill=(16, 45, 65, 225))
+        draw.rectangle((555, 600, 925, 690), outline=cyan, width=6)
+        draw.rectangle((690, 485, 790, 690), outline=pale, width=5)
+        for x in (600, 835):
+            draw.rectangle((x, 525, x+65, 585), outline=pale, width=4)
     else:
         for rack_x in (390, 620, 850):
             draw.rounded_rectangle((rack_x, 245, rack_x+190, 690), radius=15, outline=cyan, width=7, fill=(10, 30, 48, 235))
@@ -333,6 +387,19 @@ def render_scene(scene, index, total, work, used_assets, used_asset_items):
 
             # When no cleared church/server stills exist, show three labelled explanatory visuals.
             fallback_specs = scene.get("fallback_panels", [])
+            if not fallback_specs:
+                tags = {str(tag).lower() for tag in scene.get("visual_tags", [])}
+                kind = ("statue" if "statue" in tags else
+                        "arcade" if "arcade" in tags or "arasaka_tower_3d" in tags else
+                        "maze" if "maze" in tags else
+                        "badlands" if "badlands" in tags else
+                        "laptop" if "laptop" in tags or "dump" in tags else
+                        "city")
+                fallback_specs = [
+                    {"title": scene.get("heading", "Pista del misterio"),
+                     "subtitle": "Recreación visual de la ubicación o pista descrita en esta parte.",
+                     "kind": kind}
+                ]
             panel_number = len(panels)
             while len(panels) < 3 and panel_number < len(fallback_specs):
                 panel_path = work / f"support_{index:03d}_{panel_number:02d}.png"
