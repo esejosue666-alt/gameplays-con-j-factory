@@ -48,4 +48,5 @@ jobs:
           path: |
             output/final.mp4
             output/metadata.json
+            assets/images/ff06b5/*.png
           if-no-files-found: error
