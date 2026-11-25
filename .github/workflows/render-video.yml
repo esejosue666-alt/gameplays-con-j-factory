@@ -1,6 +1,12 @@
 name: Render video draft
 
 on:
+  push:
+    paths:
+      - 'scripts/create_ff06b5_illustrations.py'
+      - 'scripts/render_video.py'
+      - 'episodes/ep001_ff06b5.json'
+      - '.github/workflows/render-video.yml'
   workflow_dispatch:
     inputs:
       episode_path:
