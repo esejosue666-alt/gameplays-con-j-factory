@@ -111,3 +111,33 @@ Estos resultados mejoran la localización de planos, pero siguen siendo **refere
 2. Localizar una grabación con permiso para escenas 1–2 (estatua/monjes) y 7–9 (vertedero, colchón, Polyhistor).
 3. Revisar el archivo CC BY de The Witcher 3 para confirmar que el fragmento realmente muestra la zona secreta relacionada con FF:06:B5; gameplay general no basta.
 4. Solo después de guardar el archivo local y evidencia de derechos, registrar los recursos como aprobados en catalog.json.
+
+
+## Búsqueda adicional de imágenes específicas — 25/11/2026
+
+### Fuentes comunitarias con licencia declarada CC BY-SA
+Las páginas de Fandom consultadas muestran el aviso general "Community content is available under CC-BY-SA unless otherwise noted". Antes de descargar cada archivo individual hay que abrir su página File:, verificar autor, licencia/aviso individual y atribución; no asumir que todos los archivos heredan la licencia si están marcados como excepción.
+
+- Arasaka Tower 3D (galería: pantalla de título, intro, HUD, pisos 120/86/52/12/1 y piso -10/laberinto): https://cyberpunk.fandom.com/wiki/Arasaka_Tower_3D
+- La iglesia (exterior/interior, servidores, portátil y arcade): https://ff06b5.fandom.com/wiki/The_Church
+- Símbolo de The Witcher 3 / Ouroboros en Destroyed Bastion: https://ff06b5.fandom.com/wiki/Witcher_3_Symbol
+- Categoría de capturas de Cyberpunk 2077 (1,463 archivos; buscar Prime/statue/Corpo Plaza/monks/Badlands/Polyhistor): https://cyberpunk.fandom.com/wiki/Category:Cyberpunk_2077_images_-_Screenshots
+- Arasaka Tower 3D figura explícitamente como parte del misterio FF:06:B5 y lista las capturas de los pisos y laberinto.
+
+### Imágenes concretas de la escena Badlands
+- Nexus Mods, imagen de Simulatrix: https://www.nexusmods.com/cyberpunk2077/images/73699
+- La página identifica al uploader (Simulatrix) y muestra un enlace a la imagen original. Explica el colchón y el vehículo Demiurge.
+- Estado: imagen localizada, pero no se identificó licencia abierta en la página. No incorporarla al video sin permiso/licencia o recrear una ilustración original basada en hechos del juego.
+
+### Referencias editoriales para validar planos y detalles
+- PC Gamer explica la conexión con el símbolo Ouroboros en The Witcher 3 y cita una captura in-game: https://www.pcgamer.com/the-three-year-quest-to-solve-a-cryptic-puzzle-spanning-cyberpunk-2077-and-the-witcher-3-has-been-turned-on-its-head-by-new-clues-and-controversial-datamining/
+- Prima Games incluye imágenes y explicación de estatua, portátil y símbolo: https://primagames.com/tips/cyberpunk-2077s-biggest-mystery-ff06b5-explained
+- Vandal en español incluye imagen de la estatua y resumen del misterio: https://vandal.elespanol.com/noticia/1350782336/ff06b5-el-misterio-que-volvio-loca-a-la-comunidad-de-cyberpunk-2077-y-nacio-de-un-error-de-cd-projekt-red/
+- Fandom FF:06:B5 documenta el símbolo del Witcher 3 en Destroyed Bastion: https://ff06b5.fandom.com/wiki/Witcher_3_Symbol
+- Hamster walkthrough: https://www.youtube.com/watch?v=ACTLfbf5hK8 — timecodes en descripción: 03:23 piso 86; 06:22 piso 52; 18:29 sala secreta; 21:48 laberinto; 24:13 puntuación FF06B5; 27:38 coordenadas de Polyhistor. Referencia para localizar detalles; grabación no autorizada.
+
+### Estado y decisión de producción
+- Priorizar capturas individuales de Fandom bajo CC BY-SA, verificando la licencia/autor en cada página de archivo y cumpliendo atribución + compartir adaptaciones bajo la misma licencia cuando aplique.
+- Para escenas sin archivo claramente reutilizable (estatua/monjes, iglesia/servidores, Badlands/mattress/cubo), crear ilustraciones originales, no copiar las imágenes editoriales ni las grabaciones de YouTube.
+- Los hechos, códigos y ubicaciones pueden representarse mediante gráficos originales; evitar replicar logos/arte promocional de terceros innecesariamente.
+- No usar capturas de Nexus Mods ni artículos de prensa como assets sin permiso/licencia comprobada.
