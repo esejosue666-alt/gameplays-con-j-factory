@@ -12,7 +12,7 @@ on:
       episode_path:
         description: "JSON del episodio dentro del repositorio"
         required: true
-        default: "episodes/demo.json"
+        default: "episodes/ep001_ff06b5.json"
 
 permissions:
   contents: read
@@ -40,7 +40,14 @@ jobs:
       - name: Create original FF06B5 illustrations
         run: python scripts/create_ff06b5_illustrations.py
       - name: Render draft
-        run: python scripts/render_video.py "${{ inputs.episode_path }}"
+        env:
+          EPISODE_PATH: ${{ inputs.episode_path }}
+        run: |
+          if [ -z "$EPISODE_PATH" ]; then
+            EPISODE_PATH="episodes/ep001_ff06b5.json"
+          fi
+          echo "Rendering episode: $EPISODE_PATH"
+          python scripts/render_video.py "$EPISODE_PATH"
       - name: Save MP4 and metadata
         uses: actions/upload-artifact@v4
         with:
