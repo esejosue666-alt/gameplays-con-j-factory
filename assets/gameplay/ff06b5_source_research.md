@@ -141,3 +141,40 @@ Las páginas de Fandom consultadas muestran el aviso general "Community content 
 - Para escenas sin archivo claramente reutilizable (estatua/monjes, iglesia/servidores, Badlands/mattress/cubo), crear ilustraciones originales, no copiar las imágenes editoriales ni las grabaciones de YouTube.
 - Los hechos, códigos y ubicaciones pueden representarse mediante gráficos originales; evitar replicar logos/arte promocional de terceros innecesariamente.
 - No usar capturas de Nexus Mods ni artículos de prensa como assets sin permiso/licencia comprobada.
+
+
+## Auditoría de derechos — resultado verificado 25/11/2026
+
+### NO APROBAR: imágenes y capturas de Fandom
+Se corrige una interpretación anterior: el aviso "Community content is available under CC-BY-SA unless otherwise noted" de las wikis Fandom **no cubre automáticamente imágenes ni videos**. La guía oficial de Wikimedia Commons sobre archivos de Fandom indica que el aviso suele aplicar solo al texto; las imágenes/videos se presumen protegidos por copyright salvo que la página del archivo los identifique expresamente como libres. Por tanto, no descargar ni usar las galerías de estas páginas como assets hasta verificar licencia individual y titular:
+- https://cyberpunk.fandom.com/wiki/Arasaka_Tower_3D
+- https://ff06b5.fandom.com/wiki/The_Church
+- https://ff06b5.fandom.com/wiki/Witcher_3_Symbol
+- https://cyberpunk.fandom.com/wiki/Category:Cyberpunk_2077_images_-_Screenshots
+Referencia de la regla: https://commons.wikimedia.org/wiki/Commons:Fandom_files
+
+### NO APROBAR: imágenes de Nexus Mods
+La imagen https://www.nexusmods.com/cyberpunk2077/images/73699 es contenido subido por un usuario y no presenta una licencia que autorice reutilización en el canal. Las reglas de Nexus prohíben reutilizar contenido subido por usuarios sin permiso del autor. No usar.
+Regla: https://help.nexusmods.com/article/28-file-
+
+### APROBACIÓN LIMITADA: gameplay de The Witcher 3 de BANDAI NAMCO Europe
+Archivo: https://commons.wikimedia.org/wiki/File:The_Witcher_3_-_35_minutes_of_gameplay.webm
+- La ficha de Wikimedia Commons indica CC BY 3.0 Unported y autor BANDAI NAMCO Europe.
+- Se permite compartir y adaptar con atribución adecuada, enlace a la licencia e indicación de cambios; no sugerir respaldo del autor.
+- Atribución recomendada: "BANDAI NAMCO Europe, 'The Witcher 3 - PS4/XB1/PC - 35 minutes gameplay' (2014), CC BY 3.0, https://creativecommons.org/licenses/by/3.0/; edición: fragmento recortado y reeditado."
+- Limitación de contenido: es gameplay general de The Witcher 3 y NO se ha confirmado que muestre Destroyed Bastion ni el símbolo Ouroboros de FF:06:B5. No usarlo para afirmar que muestra esa localización. Solo podría servir como B-roll genérico de The Witcher 3 si el fragmento real resulta visualmente pertinente.
+- No descargar el archivo completo de 1.66 GB sin necesidad; revisar opciones de transcodificación de Commons o usar otro recurso autorizado más ligero.
+
+### GAMEPLAY DE YOUTUBE
+Los videos de edepot, Hamster, Generacion Gaming y otros creadores siguen siendo referencias para identificar planos, no recursos autorizados. No se ha encontrado licencia abierta ni permiso escrito. No descargar ni usar fragmentos.
+
+### Resultado por escena
+- Escenas 1–2 (estatua/monjes): sin archivo de terceros aprobado; producir ilustraciones originales.
+- Escena 3 (Witcher/Ouroboros): solo B-roll genérico de The Witcher 3 de BANDAI NAMCO con CC BY 3.0 potencialmente aprobado; para el símbolo exacto usar ilustración original.
+- Escena 4 (iglesia/servidores/portátil): sin archivo de terceros aprobado; ilustración original.
+- Escenas 5–6 (arcade/laberinto): sin archivo de terceros aprobado; ilustraciones y gráficos originales.
+- Escenas 7–9 (vertedero/colchón/Polyhistor/cubo): sin archivo de terceros aprobado; ilustraciones originales.
+- Escena 10 (Night City/estatua/Badlands): usar grabaciones propias aprobadas del usuario como apoyo general, y crear ilustraciones originales para detalles específicos.
+
+### Reglas para el render
+No añadir imágenes de Fandom, Nexus Mods, prensa ni capturas de YouTube al catálogo aprobado. Solo registrar el gameplay de BANDAI NAMCO para The Witcher si se descarga de la ficha Commons y se mantiene atribución CC BY 3.0; el resto se generará como arte original o usará grabaciones propias del usuario. Los assets generados deben describirse como ilustraciones/recreaciones, no como capturas reales del juego.
