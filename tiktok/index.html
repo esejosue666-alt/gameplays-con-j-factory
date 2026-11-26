@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gameplays con J · TikTok</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#090d16;color:#f4f7fb}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;box-sizing:border-box}
+main{width:min(620px,100%);background:#141c2a;border:1px solid #2b3b52;border-radius:20px;padding:26px;box-sizing:border-box}
+h1{margin:0 0 8px;font-size:27px}p{color:#b8c6d8;line-height:1.5}
+button,.file{display:block;width:100%;box-sizing:border-box;border:0;border-radius:12px;padding:14px 16px;margin-top:13px;font-size:16px;font-weight:650;cursor:pointer}
+button{background:#f4f7fb;color:#101827}.secondary{background:#25344a;color:#f4f7fb}
+input{width:100%;margin-top:12px;color:#dce6f2}
+small{display:block;color:#94a6bd;margin-top:14px;line-height:1.5}
+#status{padding:12px;border-radius:10px;background:#0c1421;margin-top:18px;color:#d6e2f0;overflow-wrap:anywhere}
+#result{white-space:pre-wrap}
+</style>
+</head>
+<body><main>
+<h1>Gameplays con J · TikTok</h1>
+<p>Conecta tu cuenta y envía un Short terminado a la bandeja de entrada de TikTok para revisarlo y publicarlo desde la aplicación.</p>
+<div id="status">Comprobando configuración…</div>
+<button id="connect">Conectar con TikTok</button>
+<label class="file" for="video">Seleccionar Short (MP4, MOV o WebM)</label>
+<input id="video" type="file" accept="video/mp4,video/quicktime,video/webm">
+<button id="send" class="secondary">Enviar a TikTok</button>
+<button id="disconnect" class="secondary">Desconectar cuenta</button>
+<small>La carga no publica el video directamente. Después del envío, abre TikTok y toca la notificación de la bandeja de entrada para terminar la publicación. Máximo de esta versión: 50 MB.</small>
+</main>
+<script>
+const WORKER_URL = "https://REEMPLAZA-CON-TU-WORKER.workers.dev";
+const $ = id => document.getElementById(id);
+const configured = !WORKER_URL.includes("REEMPLAZA-CON-TU-WORKER");
+function show(s){$("status").textContent=s}
+async function api(path,options={}) {
+  return fetch(WORKER_URL+path,{...options,credentials:"include"});
+}
+async function refresh(){
+  if(!configured){show("Falta desplegar el backend de Cloudflare y colocar su URL en tiktok/index.html.");return false}
+  try{
+    const r=await api("/api/status"); const d=await r.json();
+    show(d.connected?"Cuenta TikTok conectada ✓":"Cuenta TikTok no conectada.");
+    return !!d.connected;
+  }catch(e){show("No se pudo contactar el backend. Comprueba la URL y el despliegue.");return false}
+}
+$("connect").onclick=()=>{if(!configured){show("Primero configura la URL del Worker siguiendo tiktok-backend/README.md.");return}location.href=WORKER_URL+"/oauth/start"};
+$("send").onclick=async()=>{
+  const f=$("video").files[0];if(!f){show("Selecciona primero un video.");return}
+  if(f.size>50*1024*1024){show("El video supera el límite de 50 MB.");return}
+  if(!await refresh())return;
+  const data=new FormData();data.append("video",f,f.name);
+  $("send").disabled=true;show("Enviando video a TikTok… no cierres esta página.");
+  try{
+    const r=await api("/api/upload",{method:"POST",body:data});const d=await r.json();
+    show(d.success?d.message+(d.publish_id?" ID: "+d.publish_id:""):(d.error||"No se pudo enviar el video."));
+  }catch(e){show("Error de conexión durante el envío. Comprueba el estado en TikTok antes de reintentar.")}
+  finally{$("send").disabled=false}
+};
+$("disconnect").onclick=async()=>{
+  if(!configured)return;
+  try{const r=await api("/api/disconnect",{method:"POST"});const d=await r.json();show(d.disconnected?"Cuenta desconectada.":"No se pudo desconectar.")}catch(e){show("No se pudo contactar el backend.")}
+};
+if(new URLSearchParams(location.search).get("tiktok")==="connected")show("TikTok autorizó la conexión. Comprobando cuenta…");
+refresh();
+</script></body></html>
