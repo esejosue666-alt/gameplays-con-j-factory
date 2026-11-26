@@ -169,7 +169,7 @@ async function disconnect(request, env) {
 export default {
   async fetch(request, env) {
     const u = new URL(request.url);
-    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: { "Access-Control-Allow-Origin": env.APP_URL, "Access-Control-Allow-Credentials": "true", "Access-Control-Allow-Headers": "Content-Type", "Access-Control-Allow-Methods": "GET,POST" } });
+    const cors = { "Access-Control-Allow-Origin": new URL(env.APP_URL).origin, "Access-Control-Allow-Credentials": "true", "Access-Control-Allow-Headers": "Content-Type", "Access-Control-Allow-Methods": "GET,POST", "Vary": "Origin" };\n    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
     if (u.pathname === "/health") return json({ ok: true, service: "Gameplays con J TikTok bridge" });
     if (u.pathname === "/oauth/start" && request.method === "GET") return startOAuth(request, env);
     if (u.pathname === "/oauth/callback" && request.method === "GET") return oauthCallback(request, env);
