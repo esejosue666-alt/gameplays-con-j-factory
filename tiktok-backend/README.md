@@ -17,7 +17,7 @@ Esta integración vive en un **Cloudflare Worker**, separado de GitHub Pages y d
    - Secret `TIKTOK_CLIENT_KEY`: Client Key de TikTok.
    - Secret `TIKTOK_CLIENT_SECRET`: Client Secret de TikTok.
    - Variable `TIKTOK_REDIRECT_URI`: URL exacta del Worker terminada en `/oauth/callback`.
-   - Variable `APP_URL`: `https://esejosue666-alt.github.io/gameplays-con-j-factory/`
+   - Variable `APP_URL`: `https://esejosue666-alt.github.io/gameplays-con-j-factory/tiktok/`
    - Binding KV: variable `TIKTOK_KV` enlazada al namespace `GAMEPLAYS_TIKTOK`.
 5. En TikTok Developers → Login Kit → Web registra como Redirect URI exactamente el valor de `TIKTOK_REDIRECT_URI`.
 6. Prueba `https://TU-WORKER.workers.dev/health`; debe devolver `{"ok":true,...}`.
@@ -42,3 +42,7 @@ Esta integración vive en un **Cloudflare Worker**, separado de GitHub Pages y d
 - OAuth token: https://developers.tiktok.com/docs/en/oauth-get-a-user-access-token
 - Content Posting API upload: https://developers.tiktok.com/docs/en/content-posting-api-reference-upload-video
 - Media transfer: https://developers.tiktok.com/docs/en/content-posting-api-media-transfer-guide
+
+## Panel web
+Una vez desplegado el Worker y configurada su URL en `tiktok/index.html`, el panel estará en:
+https://esejosue666-alt.github.io/gameplays-con-j-factory/tiktok/
