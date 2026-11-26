@@ -11,7 +11,7 @@ function json(data, status = 200, extra = {}) {
   });
 }
 function cookie(name, value, maxAge) {
-  return `${name}=${value}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
+  return `${name}=${value}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=${maxAge}`;
 }
 function randomHex(bytes = 32) {
   const a = new Uint8Array(bytes); crypto.getRandomValues(a);
