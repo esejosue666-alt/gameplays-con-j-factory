@@ -4,10 +4,10 @@
  */
 const API = "https://open.tiktokapis.com";
 
-function json(data, status = 200) {
+function json(data, status = 200, extra = {}) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" }
+    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...extra }
   });
 }
 function cookie(name, value, maxAge) {
@@ -166,16 +166,23 @@ async function disconnect(request, env) {
   }
   return json({ disconnected: true }, 200, { "Set-Cookie": cookie("gcj_tiktok_sid", "", 0) });
 }
+function withCors(response, cors) {
+  const headers = new Headers(response.headers);
+  for (const [key, value] of Object.entries(cors)) headers.set(key, value);
+  return new Response(response.body, { status: response.status, headers });
+}
+
 export default {
   async fetch(request, env) {
     const u = new URL(request.url);
-    const cors = { "Access-Control-Allow-Origin": new URL(env.APP_URL).origin, "Access-Control-Allow-Credentials": "true", "Access-Control-Allow-Headers": "Content-Type", "Access-Control-Allow-Methods": "GET,POST", "Vary": "Origin" };\n    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
+    const cors = { "Access-Control-Allow-Origin": new URL(env.APP_URL).origin, "Access-Control-Allow-Credentials": "true", "Access-Control-Allow-Headers": "Content-Type", "Access-Control-Allow-Methods": "GET,POST", "Vary": "Origin" };
+    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
     if (u.pathname === "/health") return json({ ok: true, service: "Gameplays con J TikTok bridge" });
     if (u.pathname === "/oauth/start" && request.method === "GET") return startOAuth(request, env);
     if (u.pathname === "/oauth/callback" && request.method === "GET") return oauthCallback(request, env);
-    if (u.pathname === "/api/status" && request.method === "GET") return status(request, env);
-    if (u.pathname === "/api/upload" && request.method === "POST") return upload(request, env);
-    if (u.pathname === "/api/disconnect" && request.method === "POST") return disconnect(request, env);
+    if (u.pathname === "/api/status" && request.method === "GET") return withCors(await status(request, env), cors);
+    if (u.pathname === "/api/upload" && request.method === "POST") return withCors(await upload(request, env), cors);
+    if (u.pathname === "/api/disconnect" && request.method === "POST") return withCors(await disconnect(request, env), cors);
     return json({ error: "Not found" }, 404);
   }
 };
